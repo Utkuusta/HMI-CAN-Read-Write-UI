@@ -1,0 +1,220 @@
+VERSION ""
+
+
+NS_ :
+    NS_DESC_
+    CM_
+    BA_DEF_
+    BA_
+    VAL_
+    CAT_DEF_
+    CAT_
+    FILTER
+    BA_DEF_DEF_
+    EV_DATA_
+    ENVVAR_DATA_
+    SGTYPE_
+    SGTYPE_VAL_
+    BA_DEF_SGTYPE_
+    BA_SGTYPE_
+    SIG_TYPE_REF_
+    VAL_TABLE_
+    SIG_GROUP_
+    SIG_VALTYPE_
+    SIGTYPE_VALTYPE_
+    BO_TX_BU_
+    BA_DEF_REL_
+    BA_REL_
+    BA_DEF_DEF_REL_
+    BU_SG_REL_
+    BU_EV_REL_
+    BU_BO_REL_
+    SG_MUL_VAL_
+
+BS_: 
+BU_: 
+BO_ 2364539902 Electronic_Engine_Controller_2: 8 Vector__XXX
+   SG_ Engine_Percent_Load_At_Current_Speed : 16|8@1+ (1,0) [0|250] "%" Vector__XXX
+   SG_ Accelerator_Pedal_1_Position : 8|8@1+ (0.4,0) [0|100] "%" Vector__XXX
+   SG_ Road_Speed_Limit_Status : 4|2@1+ (1,0) [0|3] "" Vector__XXX
+
+BO_ 2364540158 Electronic_Engine_Controller_1: 8 Vector__XXX
+   SG_ Engine_Speed : 24|16@1+ (0.125,0) [0|8.03188e+06] "rpm" Vector__XXX
+   SG_ Engine_Demand_Percent_Torque : 56|8@1+ (1,-125) [-125|125] "%" Vector__XXX
+   SG_ Actual_Engine_Percent_Torque : 16|8@1+ (1,-125) [-125|125] "%" Vector__XXX
+   SG_ Actual_Engine_Percent_Torque_Fractional : 4|4@1+ (0.125,0) [0|1.625] "%" Vector__XXX
+   SG_ Drivers_Demand_Percent_Torque : 8|8@1+ (1,-125) [-125|125] "%" Vector__XXX
+
+BO_ 2565866752 High_Voltage_Energy_Storage_System_Data_1: 8 Vector__XXX
+   SG_ HVESS_Available_Discharge_Power : 0|16@1+ (0.05,0) [0|3212.75] "kW" Vector__XXX
+   SG_ HVESS_Available_Charge_Power : 16|16@1+ (0.05,0) [0|3212.75] "kW" Vector__XXX
+   SG_ HVESS_Voltage_Level : 32|16@1+ (0.05,0) [0|3212.75] "V" Vector__XXX
+   SG_ HVESS_Current : 48|16@1- (0.05,0) [-1600|1612.75] "A" Vector__XXX
+
+BO_ 2565879550 High_Voltage_Energy_Storage_System_Status_2: 8 Vector__XXX
+   SG_ HVESS_Discharge_Power_Limit_Due_to_State_of_Charge : 0|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_Discharge_Power_Limit_Due_to_Battery_Temperature : 2|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_Discharge_Power_Limit_Due_to_Battery_Diagnostic_Condition : 4|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_Discharge_Power_Limit_Due_to_Battery_or_Cell_Voltage : 6|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_Discharge_Power_Limit_Due_to_Battery_Current : 8|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_Discharge_Power_Limit_Due_to_Power_Module_Electronics_Temperature : 12|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_Charge_Power_Limit_Due_to_State_of_Charge : 32|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_Charge_Power_Limit_Due_to_Battery_Temperature : 34|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_Charge_Power_Limit_Due_to_Battery_Diagnostic_Condition : 36|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_Charge_Power_Limit_Due_to_Battery_or_Cell_Voltage : 38|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_Charge_Power_Limit_Due_to_Battery_Current : 40|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_Charge_Power_Limit_Due_to_Power_Module_Electronics_Temperature : 44|2@1+ (1,0) [0|3] "" Vector__XXX
+
+BO_ 2565902846 High_Voltage_Energy_Storage_System_Data_2: 8 Vector__XXX
+   SG_ HVESS_Fast_Update_State_of_Charge : 0|16@1- (0.0015625,0) [0|100.398] "%" Vector__XXX
+   SG_ HVESS_Highest_Cell_Voltage : 16|16@1- (0.001,0) [0|64.225] "V" Vector__XXX
+   SG_ HVESS_Lowest_Cell_Voltage : 32|16@1- (0.001,0) [0|64.225] "V" Vector__XXX
+   SG_ HVESS_Cell_Voltage_Differential_Status : 48|4@1+ (1,0) [0|16] "" Vector__XXX
+
+BO_ 2565903102 High_Voltage_Energy_Storage_System_Data_3: 8 Vector__XXX
+   SG_ HVESS_Highest_Cell_Temperature : 0|16@1- (0.03125,-273) [-273|1734.97] "degC" Vector__XXX
+   SG_ HVESS_Lowest_Cell_Temperature : 16|16@1- (0.03125,-273) [-273|1734.97] "degC" Vector__XXX
+   SG_ HVESS_Average_Cell_Temperature : 32|16@1- (0.03125,-273) [-273|1734.97] "degC" Vector__XXX
+   SG_ High_Voltage_Energy_Storage_System_Data_3Sig492 : 48|2@1+ (1,0) [0|4] "" Vector__XXX
+
+BO_ 2565903358 High_Voltage_Energy_Storage_System_Data_4: 8 Vector__XXX
+   SG_ HVESS_Discharge_Capacity : 0|16@1+ (0.01,0) [0|642.55] "Ah" Vector__XXX
+   SG_ HVESS_Charge_Capacity : 16|16@1+ (0.01,0) [0|642.55] "Ah" Vector__XXX
+   SG_ HVESS_Cell_Balancing_Count : 32|16@1+ (1,0) [0|64255] "" Vector__XXX
+
+BO_ 2565903614 High_Voltage_Energy_Storage_System_Data_5: 8 Vector__XXX
+   SG_ HVESS_Discharge_Current_Limit : 0|16@1- (0.05,0) [-1600|0] "A" Vector__XXX
+   SG_ HVESS_Charge_Current_Limit : 16|16@1- (0.05,0) [0|1615.75] "A" Vector__XXX
+   SG_ HVESS_Minimum_Cell_State_of_Charge : 32|16@1- (0.0015625,0) [0|100.398] "%" Vector__XXX
+   SG_ HVESS_Maximum_Cell_State_of_Charge : 48|16@1- (0.0015625,0) [0|100.398] "%" Vector__XXX
+
+BO_ 2565903870 High_Voltage_Energy_Storage_System_Data_6: 8 Vector__XXX
+   SG_ HVESS_Bus_Voltage : 0|16@1+ (0.05,0) [0|3212.75] "V" Vector__XXX
+   SG_ HVESS_Electronics_Temperature : 48|8@1- (1,-40) [-40|210] "degC" Vector__XXX
+   SG_ HVESS_Temperature : 56|8@1- (1,-40) [-40|210] "degC" Vector__XXX
+
+BO_ 2565904126 High_Voltage_Energy_Storage_System_Status_1: 8 Vector__XXX
+   SG_ HVESS_High_Voltage_Bus_Positive_Contactor_State : 0|2@1+ (1,0) [0|4] "" Vector__XXX
+   SG_ HVESS_High_Voltage_Bus_Negative_Contactor_State : 2|2@1+ (1,0) [0|4] "" Vector__XXX
+   SG_ HVESS_High_Voltage_Bus_Disconnect_Forewarning : 4|3@1+ (1,0) [0|7] "" Vector__XXX
+   SG_ HVESS_High_Voltage_Bus_Pre_Charge_Relay_State : 8|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_State_of_Charge_Status : 24|3@1+ (1,0) [0|7] "" Vector__XXX
+   SG_ HVESS_Cell_Balance_Status : 28|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_Cell_Balancing_Active : 30|2@1+ (1,0) [0|3] "" Vector__XXX
+   SG_ HVESS_Status_1_Counter : 36|4@1+ (1,0) [0|15] "" Vector__XXX
+   SG_ HVESS_High_Voltage_Bus_Connection_Status : 40|4@1+ (1,0) [0|15] "" Vector__XXX
+   SG_ HVESS_Operational_Status : 44|4@1+ (1,0) [0|15] "" Vector__XXX
+   SG_ HVESS_Status_1_CRC : 56|8@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 2565906686 High_Voltage_Energy_Storage_System_Data_7: 8 Vector__XXX
+   SG_ HVESS_Discharge_Energy_Capacity : 0|24@1+ (0.001,0) [0|16449.5] "kWh" Vector__XXX
+   SG_ HVESS_Charge_Energy_Capacity : 24|24@1+ (0.001,0) [0|16449.5] "kWh" Vector__XXX
+   SG_ HVESS_Maximum_Charge_Voltage_Limit : 48|16@1+ (0.05,0) [0|3212.75] "V" Vector__XXX
+
+BO_ 2566568190 EVSE_DC_Status_1: 8 Vector__XXX
+
+BO_ 2566575358 EVSE_DC_Status_2: 8 Vector__XXX
+
+BO_ 2566675966 High_Voltage_Energy_Storage_System_Configuration: 8 Vector__XXX
+
+BO_ 2566676222 High_Voltage_Energy_Storage_System_History: 8 Vector__XXX
+
+BO_ 2566701822 Hybrid_or_EV_System_Status_1: 8 Vector__XXX
+   SG_ Regenerative_Braking_Indicator : 20|2@1+ (1,0) [0|3] "" Vector__XXX
+
+BO_ 2566711294 Engine_Configuration_3: 8 Vector__XXX
+
+BO_ 2566832638 High_Resolution_Vehicle_Distance: 8 Vector__XXX
+   SG_ Total_Vehicle_Distance_HiRes : 0|32@1+ (5,0) [0|2.10554e+10] "m" Vector__XXX
+   SG_ Trip_Distance_HiRes : 32|32@1+ (5,0) [0|2.10554e+10] "m" Vector__XXX
+
+BO_ 2566834942 Active_Diagnostic_Trouble_Codes: 8 Vector__XXX
+
+BO_ 2365513726 Electronic_Engine_Controller_3: 8 Vector__XXX
+
+BO_ 2566841342 Engine_Configuration_1: 40 Vector__XXX
+   SG_ Engine_Reference_Torque : 152|16@1+ (1,0) [0|64255] "N.m" Vector__XXX
+   SG_ Engine_Rqstd_Trq_Ctrl_Lower_Lmt : 208|8@1+ (1,-125) [0|125] "%" Vector__XXX
+   SG_ Engine_Rqstd_Trq_Ctrl_Upper_Lmt : 216|8@1+ (1,-125) [0|125] "%" Vector__XXX
+
+BO_ 2566843646 Vehicle_Identification: 8 Vector__XXX
+   SG_ VIN : 0|64@4- (1,0) [0|1] "" Vector__XXX
+
+BO_ 2566838014 Hybrid_or_EV_System_Inputs_1: 8 Vector__XXX
+   SG_ Coasting_Rgnrtve_Brking_Lvl_Slc : 16|8@1+ (0.4,0) [0|100] "" Vector__XXX
+
+BO_ 2558525694 Hybrid_or_EV_System_Control_1: 8 Vector__XXX
+
+BO_ 2566615550 Motor_Generator_1_Inverter_Motor_Temperature: 8 Vector__XXX
+
+BO_ 2566615806 Motor_Generator_1_Inverter_Temperature: 8 Vector__XXX
+
+BO_ 2566569470 Motor_Generator_1_Lifetime_Data: 8 Vector__XXX
+
+BO_ 2566616318 Motor_Generator_1_Inverter_Status_1: 8 Vector__XXX
+
+BO_ 2364473598 Proprietary_A: 8 Vector__XXX
+BA_ "SingleFrame" BO_ 2364473598 0;
+   SG_ Accelerator_Pedal_1_Position : 8|8@1+ (0.4,0) [0|100] "%" Vector__XXX
+
+BO_ 2364473855 Proprietary_A2: 8 Vector__XXX
+   SG_ Drivers_Demand_Percent_Torque : 0|8@1+ (1,-125) [-125|125] "%" Vector__XXX
+   SG_ Accelerator_Pedal_Position_1 : 8|8@1+ (0.4,0) [0|100] "%" Vector__XXX
+
+BA_DEF_ BO_ "GenMsgBackgroundColor" STRING ;
+BA_DEF_ BO_ "GenMsgForegroundColor" STRING ;
+BA_DEF_ BO_ "matchingcriteria" INT 0 0;
+BA_DEF_ BO_ "filterlabeling" INT 0 0;
+BA_DEF_ BO_ "matchingcriteria" INT 0 0;
+BA_DEF_ BO_ "filterlabeling" INT 0 0;
+BA_DEF_ BO_ "matchingcriteria" INT 0 0;
+BA_DEF_ BO_ "filterlabeling" INT 0 0;
+BA_DEF_ BO_ "matchingcriteria" INT 0 0;
+BA_DEF_ BO_ "filterlabeling" INT 0 0;
+BA_DEF_ BO_ "matchingcriteria" INT 0 0;
+BA_DEF_ BO_ "filterlabeling" INT 0 0;
+BA_DEF_ BO_ "matchingcriteria" INT 0 0;
+BA_DEF_ BO_ "filterlabeling" INT 0 0;
+BA_DEF_DEF_ "GenMsgBackgroundColor" "#171717";
+BA_DEF_DEF_ "GenMsgForegroundColor" "#ffffff";
+BA_DEF_DEF_ "matchingcriteria" 1;
+BA_DEF_DEF_ "filterlabeling" 1;
+BA_DEF_DEF_ "matchingcriteria" 1;
+BA_DEF_DEF_ "filterlabeling" 1;
+BA_ "GenMsgForegroundColor" BO_ 2364539902 "#000000";
+BA_ "GenMsgForegroundColor" BO_ 2364540158 "#000000";
+BA_ "GenMsgForegroundColor" BO_ 2565879550 "#000000";
+BA_ "GenMsgForegroundColor" BO_ 2565902846 "#000000";
+BA_ "GenMsgForegroundColor" BO_ 2565903102 "#000000";
+BA_ "GenMsgForegroundColor" BO_ 2565903358 "#000000";
+BA_ "GenMsgForegroundColor" BO_ 2565906686 "#000000";
+BA_ "GenMsgForegroundColor" BO_ 2566676222 "#000000";
+BA_ "GenMsgForegroundColor" BO_ 2566841342 "#000000";
+BA_ "GenMsgForegroundColor" BO_ 2566615550 "#000000";
+BA_ "GenMsgForegroundColor" BO_ 2364473598 "#000000";
+BA_ "GenMsgForegroundColor" BO_ 2364473855 "#000000";
+VAL_ 2364539902 Road_Speed_Limit_Status 0 "Active" 1 "Not_Active" 2 "Error" 3 "Not_Available";
+VAL_ 2565879550 HVESS_Discharge_Power_Limit_Due_to_State_of_Charge 0 "No_power_limit_for_this_reason" 1 "Power_limited_for_this_reason" 2 "Error" 3 "Not_available";
+VAL_ 2565879550 HVESS_Discharge_Power_Limit_Due_to_Battery_Temperature 0 "No_power_limit_for_this_reason" 1 "Power_limited_for_this_reason" 2 "Error" 3 "Not_available";
+VAL_ 2565879550 HVESS_Discharge_Power_Limit_Due_to_Battery_Diagnostic_Condition 0 "No_power_limit_for_this_reason" 1 "Power_limited_for_this_reason" 2 "Error" 3 "Not_available";
+VAL_ 2565879550 HVESS_Discharge_Power_Limit_Due_to_Battery_or_Cell_Voltage 0 "No_power_limit_for_this_reason" 1 "Power_limited_for_this_reason" 2 "Error" 3 "Not_available";
+VAL_ 2565879550 HVESS_Discharge_Power_Limit_Due_to_Battery_Current 0 "No_power_limit_for_this_reason" 1 "Power_limited_for_this_reason" 2 "Error" 3 "Not_available";
+VAL_ 2565879550 HVESS_Discharge_Power_Limit_Due_to_Power_Module_Electronics_Temperature 0 "No_power_limit_for_this_reason" 1 "Power_limited_for_this_reason" 2 "Error" 3 "Not_available";
+VAL_ 2565879550 HVESS_Charge_Power_Limit_Due_to_State_of_Charge 0 "No_power_limit_for_this_reason" 1 "Power_limited_for_this_reason" 2 "Error" 3 "Not_available";
+VAL_ 2565879550 HVESS_Charge_Power_Limit_Due_to_Battery_Temperature 0 "No_power_limit_for_this_reason" 1 "Power_limited_for_this_reason" 2 "Error" 3 "Not_available";
+VAL_ 2565879550 HVESS_Charge_Power_Limit_Due_to_Battery_Diagnostic_Condition 0 "No_power_limit_for_this_reason" 1 "Power_limited_for_this_reason" 2 "Error" 3 "Not_available";
+VAL_ 2565879550 HVESS_Charge_Power_Limit_Due_to_Battery_or_Cell_Voltage 0 "No_power_limit_for_this_reason" 1 "Power_limited_for_this_reason" 2 "Error" 3 "Not_available";
+VAL_ 2565879550 HVESS_Charge_Power_Limit_Due_to_Battery_Current 0 "No_power_limit_for_this_reason" 1 "Power_limited_for_this_reason" 2 "Error" 3 "Not_available";
+VAL_ 2565879550 HVESS_Charge_Power_Limit_Due_to_Power_Module_Electronics_Temperature 0 "No_power_limit_for_this_reason" 1 "Power_limited_for_this_reason" 2 "Error" 3 "Not_available";
+VAL_ 2565902846 HVESS_Cell_Voltage_Differential_Status 0 "within_acceptable_limits" 1 "exceeds_acceptable_limits_but_can_be_corrected_via_auto_balancing" 2 "exceeds_acceptable_limits_to_a_point_where_external_maintenance_balancing_is_required_to_restore_battery_performance" 3 "exceeds_acceptable_limits_to_a_point_where_external_maintenance_balancing_cannot_restore_battery_performance" 4 "exceeds_acceptable_limits;_it_is_not_known_whether_balancing_can_restore_battery_performance" 15 "error";
+VAL_ 2565903102 High_Voltage_Energy_Storage_System_Data_3Sig492 0 "within_acceptable_limits" 1 "exceeds_acceptable_limits" 3 "error" 4 "not_available";
+VAL_ 2565904126 HVESS_High_Voltage_Bus_Positive_Contactor_State 0 "Contactor_Open" 1 "Contactor_Closed" 2 "Error" 3 "Not_Available";
+VAL_ 2565904126 HVESS_High_Voltage_Bus_Negative_Contactor_State 0 "Contactor_Open" 1 "Contactor_Closed" 2 "Error" 3 "Not_Available";
+VAL_ 2565904126 HVESS_High_Voltage_Bus_Disconnect_Forewarning 0 "Disconnect_Not_Pending" 1 "Disconnect_imminent_due_to_battery_pack_voltage_approaching_minimum_acceptable_level" 2 "Disconnect_imminent_due_to_battery_pack_voltage_approaching_maximum_acceptable_level" 3 "Disconnect_imminent_due_to_module_voltage_approaching_minimum_acceptable_level" 4 "Disconnect_imminent_due_to_module_voltage_approaching_maximum_acceptable_leve" 5 "Disconnect_imminent_due_to_cell_voltage_approaching_minimum_acceptable_level" 6 "Disconnect_imminent_due_to_cell_voltage_approaching_maximum_acceptable_level" 7 "Disconnect_imminent_due_to_battery_pack_current_approaching_maximum_acceptable_level" 13 "Disconnect_imminent___no_reason_given" 14 "Error";
+VAL_ 2565904126 HVESS_High_Voltage_Bus_Pre_Charge_Relay_State 0 "Relay_Open" 1 "Relay_Closed" 2 "Error" 3 "Not_Available";
+VAL_ 2565904126 HVESS_State_of_Charge_Status 0 "SOC_level_is_acceptable." 1 "SOC_is_approaching_its_recommended_lower_limit" 2 "SOC_is_at_its_recommended_lower_limit" 3 "SOC_is_below_its_recommended_lower_limit" 4 "SOC_is_approaching_its_recommended_upper_limit" 5 "SOC_is_at_its_recommended_upper_limit" 6 "SOC_is_above_its_recommended_upper_limit" 14 "Error";
+VAL_ 2565904126 HVESS_Cell_Balance_Status 0 "Cells_are_balanced" 1 "Cells_are_unbalanced" 2 "Error" 3 "Not_Available";
+VAL_ 2565904126 HVESS_Cell_Balancing_Active 0 "Cell_balancing_is_not_active" 1 "Cell_balancing_is_active" 2 "Error" 3 "Not_Available";
+VAL_ 2565904126 HVESS_High_Voltage_Bus_Connection_Status 0 "Disconnected._One_or_more_contactors_are_open." 1 "Connected._All_contactors_are_closed_and_the_precharge_relay_is_open." 2 "Connection_in_Process._OPTIONAL" 3 "Disconnection_in_Process._OPTIONAL" 4 "Disconnected;_Precharge_Failed." 14 "Error" 15 "Not_Available";
+VAL_ 2565904126 HVESS_Operational_Status 0 "Initialization_in_process." 1 "Initialization_Complete,_awaiting_Operation_Consent." 2 "Operational" 3 "Normal_Power_Down_in_Process." 4 "Emergency_Power_Down_In_Process." 5 "Disabled_by_external_command." 6 "Disabled_by_internal_decision_of_HVES." 14 "Error" 15 "Not_Available";
+
