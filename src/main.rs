@@ -2,7 +2,9 @@ use canparse::pgn::{ParseMessage, PgnLibrary, SpnDefinition};
 use dbc::*;
 use std::collections::HashMap;
 use std::io;
+use std::path::Path;
 use std::time::Duration;
+use tokio::fs::{create_dir_all, OpenOptions};
 use tokio::io::{AsyncBufReadExt, AsyncReadExt, AsyncWriteExt, BufReader};
 use tokio_serial::SerialPortBuilderExt;
 
@@ -198,6 +200,13 @@ async fn main() -> io::Result<()> {
                                     sframe.dlc,
                                     &sframe.data[..sframe.dlc as usize]
                                 );
+                                if sframe.id >= 100 || sframe.id < 110 {
+                                    handle_expander(
+                                        sframe.id.into(),
+                                        &sframe.data[..sframe.dlc as usize],
+                                    )
+                                    .await;
+                                }
                             }
                             buffer.drain(..start + end + 1);
                         } else {
@@ -430,5 +439,72 @@ async fn send_extended_frame(writer: &mut (impl AsyncWriteExt + Unpin), frame: E
         eprintln!("Error writing extended frame: {:?}", e);
     } else {
         println!("Sent Extended CAN frame: {:?}", frame);
+    }
+}
+
+pub async fn handle_expander(id: u32, data: &[u8]) {
+    // Ensure we have at least 2 bytes of data.
+    if data.len() < 2 {
+        eprintln!(
+            "Expected at least 2 bytes of data for expander id {}, but got {}",
+            id,
+            data.len()
+        );
+        return;
+    }
+
+    // Validate the id is within the range 100 to 109.
+    if id < 100 || id > 109 {
+        eprintln!(
+            "Invalid expander id: {}. Expected value between 100 and 109.",
+            id
+        );
+        return;
+    }
+
+    // Map CAN frame id to expander number: 100 -> 1, 101 -> 2, ..., 109 -> 10.
+    let expander_num = id - 99;
+    let file_path = format!("expanders/expander{}.csv", expander_num);
+
+    // Convert the first two bytes into a vector of bit strings (MSB to LSB).
+    let mut bits = Vec::with_capacity(16);
+    for byte in &data[0..2] {
+        for i in (0..8).rev() {
+            let bit = (byte >> i) & 1;
+            bits.push(bit.to_string());
+        }
+    }
+
+    // Create a CSV row by joining the bit strings with commas.
+    let row = bits.join(",");
+
+    // Ensure the directory exists.
+    if let Some(parent) = Path::new(&file_path).parent() {
+        if let Err(e) = create_dir_all(parent).await {
+            eprintln!("Error creating directory {:?}: {}", parent, e);
+            return;
+        }
+    }
+
+    // Open the CSV file in append mode (or create it if it doesn't exist).
+    let mut file = match OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&file_path)
+        .await
+    {
+        Ok(f) => f,
+        Err(e) => {
+            eprintln!("Could not open file {}: {}", file_path, e);
+            return;
+        }
+    };
+
+    // Write the CSV row, ending with a newline.
+    if let Err(e) = file.write_all(row.as_bytes()).await {
+        eprintln!("Error writing to file {}: {}", file_path, e);
+    }
+    if let Err(e) = file.write_all(b"\n").await {
+        eprintln!("Error writing newline to file {}: {}", file_path, e);
     }
 }
