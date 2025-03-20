@@ -1,0 +1,111 @@
+import { Button, VerticalBox, HorizontalBox} from "std-widgets.slint";
+
+export component Outputs inherits HorizontalBox {
+    in-out property<bool> left_signal;
+    in-out property<bool> right_signal;
+    in-out property<bool> headlights;
+    in-out property<bool> farlights;
+    in-out property<bool> brakes;
+    in-out property<bool> flasher;
+    in-out property<bool> buzzer;
+    in-out property<bool> platelights;
+    in-out property<bool> taillights;
+    in-out property<bool> horn;
+    
+    
+    VerticalBox {
+        spacing: 10px;
+        height: 200px;
+        width: 500px;
+
+        HorizontalBox {
+            spacing: 20px;
+            VerticalBox {
+                Text { text: "Left Signal"; }
+                Rectangle {
+                    width: 40px;
+                    height: 40px;
+                    background: root.left_signal ? #00FF00 : #FF0000;
+                }
+            }
+            VerticalBox {
+                Text { text: "Right Signal"; }
+                Rectangle {
+                    width: 40px;
+                    height: 40px;
+                    background: root.right_signal ? #00FF00 : #FF0000;
+                }
+            }
+            VerticalBox {
+                Text { text: "Headlights"; }
+                Rectangle {
+                    width: 40px;
+                    height: 40px;
+                    background: root.headlights ? #00FF00 : #FF0000;
+                }
+            }
+            VerticalBox {
+                Text { text: "Farlights"; }
+                Rectangle {
+                    width: 40px;
+                    height: 40px;
+                    background: root.farlights ? #00FF00 : #FF0000;
+                }
+            }
+            VerticalBox {
+                Text { text: "Brakes"; }
+                Rectangle {
+                    width: 40px;
+                    height: 40px;
+                    background: root.brakes ? #00FF00 : #FF0000;
+                }
+            }
+        }
+        
+        HorizontalBox {
+            spacing: 20px;
+            VerticalBox {
+                Text { text: "Flasher"; }
+                Rectangle {
+                    width: 40px;
+                    height: 40px;
+                    background: root.flasher ? #00FF00 : #FF0000;
+                }
+            }
+            VerticalBox {
+                Text { text: "Buzzer"; }
+                Rectangle {
+                    width: 40px;
+                    height: 40px;
+                    background: root.buzzer ? #00FF00 : #FF0000;
+                }
+            }
+            VerticalBox {
+                Text { text: "Platelights"; }
+                Rectangle {
+                    width: 40px;
+                    height: 40px;
+                    background: root.platelights ? #00FF00 : #FF0000;
+                }
+            }
+            VerticalBox {
+                Text { text: "Taillights"; }
+                Rectangle {
+                    width: 40px;
+                    height: 40px;
+                    background: root.taillights ? #00FF00 : #FF0000;
+                }
+            }
+            VerticalBox {
+                Text { text: "Horn"; }
+                Rectangle {
+                    width: 40px;
+                    height: 40px;
+                    background: root.horn ? #00FF00 : #FF0000;
+                }
+            }
+        }
+
+    }
+}
+

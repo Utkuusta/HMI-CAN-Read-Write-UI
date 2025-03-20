@@ -1,0 +1,19 @@
+import { VerticalBox, HorizontalBox} from "std-widgets.slint";
+
+export component HundredsDisplay inherits VerticalBox {
+    in-out property <[bool]> bits: [false,false];
+
+
+    Rectangle {
+        height: 200px/2;
+        width: 120px/2;
+        background: #000;
+        border-radius: 10px/2;
+
+        
+                 Rectangle { x: 90px/2; y: 40px/2; width: 20px/2; height: 40px/2; background: bits[1] ? #1068f6 : #333; }
+                Rectangle { x: 90px/2; y: 120px/2; width: 20px/2; height: 40px/2; background: bits[0] ? #1068f6 : #333; }
+              
+        
+    }
+}

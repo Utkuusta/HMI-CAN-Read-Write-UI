@@ -1,0 +1,49 @@
+import { VerticalBox, HorizontalBox} from "std-widgets.slint";
+
+export component BatteryDisplay2 inherits HorizontalBox {
+    in-out property <bool> battery10;
+    in-out property <bool> battery20;
+    in-out property <bool> battery30;
+    in-out property <bool> battery40;
+    in-out property <bool> battery50;
+    in-out property <bool> battery60;
+    in-out property <bool> battery70;
+    in-out property <bool> battery80;
+    in-out property <bool> battery90;
+    in-out property <bool> battery100;
+    in-out property <bool> battery2_indicator;
+
+
+        VerticalBox {
+            Text {
+                width: 80px/2;
+                height: 55px/2;
+                text: "Batt2";
+            color: battery2_indicator ? #1068f6 : #333;}
+                 
+            Rectangle {
+                height: 265px/2;
+                width: 50px/2;
+                background:  #000000;
+                border-radius: 10px/2;
+        
+                
+                Rectangle { y: 10px/2; x: 5px/2;  height: 20px/2; width: 40px/2; background: battery100  ? #f00 : #333; }
+                Rectangle { y: 35px/2; x: 5px/2; height: 20px/2; width: 40px/2; background: battery90 ? #f00 : #333; }
+                Rectangle { y: 60px/2; x: 5px/2; height: 20px/2; width: 40px/2; background: battery80 ? #f00 : #333; }
+                Rectangle { y: 85px/2; x: 5px/2; height: 20px/2; width: 40px/2; background: battery70? #f00 : #333; }
+                Rectangle { y: 110px/2; x: 5px/2; height: 20px/2; width: 40px/2; background: battery60 ? #f00 : #333; }
+                Rectangle { y: 135px/2; x: 5px/2; height: 20px/2; width: 40px/2; background: battery50 ? #f00 : #333; }
+                Rectangle { y: 160px/2; x: 5px/2; height: 20px/2; width: 40px/2; background: battery40 ? #f00 : #333; }
+                Rectangle { y: 185px/2; x: 5px/2; height: 20px/2; width: 40px/2; background: battery30 ? #f00 : #333; }
+                Rectangle { y: 210px/2; x: 5px/2; height: 20px/2; width: 40px/2; background: battery20 ? #f00 : #333; }
+                Rectangle { y: 235px/2; x: 5px/2; height: 20px/2; width: 40px/2; background: battery10 ? #f00 : #333; }
+                
+                
+            }
+        }
+    
+        
+        
+    
+}

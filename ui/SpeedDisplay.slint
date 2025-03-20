@@ -1,0 +1,22 @@
+import { VerticalBox, HorizontalBox} from "std-widgets.slint";
+import { SevenSegmentDisplay } from "sevensegment.slint";
+import { HundredsDisplay } from "hundreds.slint";
+
+export component SpeedDisplay inherits HorizontalBox {
+    in-out property <[bool]> ones: [false,false,false,false,false,false,false];
+    in-out property <[bool]> tens: [false,false,false,false,false,false,false];
+    in-out property <[bool]> hundreds: [false,false];
+
+    HundredsDisplay {bits: hundreds;}
+    SevenSegmentDisplay {bits: tens;}
+    SevenSegmentDisplay {bits: ones;}
+    VerticalBox {
+        padding-top: 150px;
+        Text {
+        width: 50px;
+        height: 50px;
+        font-size: 16px;
+        text: "km/h";
+        color: #1068f6;}}
+    
+}

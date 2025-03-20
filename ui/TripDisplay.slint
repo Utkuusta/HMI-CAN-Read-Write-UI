@@ -1,0 +1,56 @@
+import { VerticalBox, HorizontalBox} from "std-widgets.slint";
+import { HundredsDisplay } from "hundreds.slint";
+import { SmallSevenSegmentDisplay } from "smallsevensegment.slint";
+import { SmallSevenSegmentDotDisplay } from "smallsevensegmentdot.slint";
+import { HundredsSmallDisplay } from "hundredssmall.slint";
+
+export component TripDisplay inherits VerticalBox {
+    in property <bool> trip: false;
+    in property <bool> odo: false;
+    in property <bool> range: false;
+    in-out property <[bool]> fraction: [false,false,false,false,false,false,false];
+    in-out property <[bool]> ones: [false,false,false,false,false,false,false,false];
+    in-out property <[bool]> tens: [false,false,false,false,false,false,false];
+    in-out property <[bool]> hundreds: [false,false,false,false,false,false,false];
+    in-out property <[bool]> thousands: [false,false,false,false,false,false,false];
+    in-out property <[bool]> tenthousands: [false,false,false,false,false,false,false];
+    in-out property <[bool]> hundredssmall: [false,false];
+
+    HorizontalBox {
+        padding-left: 130px;
+        Text {
+            width: 50px;
+            height: 20px;
+            font-size: 16px;
+            text: "Trip";
+            color: trip  ? #1068f6 : #333;}
+            Text {
+                width: 50px;
+                height: 20px;
+                font-size: 16px;
+                text: "Odo";
+                color: odo  ? #1068f6 : #333;}
+                Text {
+                    width: 55px;
+                    height: 20px;
+                    font-size: 16px;
+                    text: "Range";
+                    color: range  ? #1068f6 : #333;}
+    }
+    HorizontalBox {
+        HundredsSmallDisplay {bits: hundredssmall;}
+    SmallSevenSegmentDisplay {bits: tenthousands;}
+    SmallSevenSegmentDisplay {bits: thousands;}
+    SmallSevenSegmentDisplay {bits: hundreds;}
+    SmallSevenSegmentDisplay {bits: tens;}
+    SmallSevenSegmentDotDisplay {bits: ones;}
+    SmallSevenSegmentDisplay {bits: fraction;}
+    Text {
+        width: 50px;
+        height: 50px;
+        font-size: 16px;
+        text: "km";
+        color:  #1068f6;}
+    }
+    
+}

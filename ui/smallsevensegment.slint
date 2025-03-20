@@ -1,0 +1,24 @@
+import { VerticalBox, HorizontalBox} from "std-widgets.slint";
+
+export component SmallSevenSegmentDisplay inherits VerticalBox {
+    in-out property <[bool]> bits: [false,false,false,false,false,false,false];
+
+
+    Rectangle {
+        height: 100px/2;
+        width: 60px/2;
+        background: #000;
+        border-radius: 5px/2;
+
+        
+                Rectangle { x: 10px/2/2; y: 10px/2/2; width: 50px/2; height: 10px/2; background: bits[6]  ? #1068f6 : #333; }
+                Rectangle { x: 90px/2/2; y: 40px/2/2; width: 10px/2; height: 20px/2; background: bits[5]  ? #1068f6 : #333; }
+                Rectangle { x: 90px/2/2; y: 120px/2/2; width: 10px/2; height: 20px/2; background: bits[4]  ? #1068f6 : #333; }
+                Rectangle { x: 10px/2/2; y: 170px/2/2; width: 50px/2; height: 10px/2; background: bits[3]  ? #1068f6 : #333; }
+                Rectangle { x: 10px/2/2; y: 120px/2/2; width: 10px/2; height: 20px/2; background: bits[2]  ? #1068f6 : #333; }
+                Rectangle { x: 10px/2/2; y: 40px/2/2; width: 10px/2; height: 20px/2; background: bits[1]  ? #1068f6 : #333; }
+                Rectangle { x: 10px/2/2; y: 90px/2/2; width: 50px/2; height: 10px/2; background: bits[0]  ? #1068f6 : #333; }
+            
+        
+    }
+}

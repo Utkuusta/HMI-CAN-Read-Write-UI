@@ -1,12 +1,17 @@
 use canparse::pgn::{ParseMessage, PgnLibrary, SpnDefinition};
 use dbc::*;
+use slint::{ModelRc, Timer, TimerMode, VecModel};
 use std::collections::HashMap;
+use std::fs::File;
 use std::io;
+use std::io::{Read, Write};
 use std::path::Path;
 use std::time::Duration;
 use tokio::fs::{create_dir_all, OpenOptions};
 use tokio::io::{AsyncBufReadExt, AsyncReadExt, AsyncWriteExt, BufReader};
 use tokio_serial::SerialPortBuilderExt;
+
+slint::include_modules!();
 
 mod dbc;
 
@@ -200,7 +205,7 @@ async fn main() -> io::Result<()> {
                                     sframe.dlc,
                                     &sframe.data[..sframe.dlc as usize]
                                 );
-                                if sframe.id >= 100 || sframe.id < 110 {
+                                if sframe.id >= 100 && sframe.id < 110 {
                                     handle_expander(
                                         sframe.id.into(),
                                         &sframe.data[..sframe.dlc as usize],
@@ -416,7 +421,262 @@ async fn main() -> io::Result<()> {
         }
     });
 
-    let _ = tokio::join!(reader_task, writer_task);
+    let ui_task = tokio::spawn(async move {
+        // Write all false values to the txt file at the start of the program
+        let mut led_file = match File::create("./led_status.txt") {
+            Ok(file) => file,
+            Err(_) => {
+                eprintln!("Failed to create led_status.txt");
+                return Ok(());
+            }
+        };
+
+        let initial_led_data =
+            "false\nfalse\nfalse\nfalse\nfalse\nfalse\nfalse\nfalse\nfalse\nfalse\n";
+        if let Err(_) = led_file.write_all(initial_led_data.as_bytes()) {
+            eprintln!("Failed to write initial data to led_status.txt");
+            return Ok(());
+        }
+
+        let ui = AppWindow::new()?;
+        let timer = Timer::default();
+
+        let ui_handle = ui.as_weak();
+        timer.start(
+            TimerMode::Repeated,
+            std::time::Duration::from_millis(200),
+            move || {
+                let ui = ui_handle.unwrap();
+
+                // Update LED statuses from led_status.txt
+                let mut led_file = match File::open("./led_status.txt") {
+                    Ok(file) => file,
+                    Err(_) => {
+                        eprintln!("Failed to open led_status.txt");
+                        return;
+                    }
+                };
+
+                let mut led_bitstring = String::new();
+                if let Err(_) = led_file.read_to_string(&mut led_bitstring) {
+                    eprintln!("Failed to read led_status.txt");
+                    return;
+                }
+
+                let led_data: Vec<bool> = led_bitstring
+                    .lines()
+                    .filter_map(|line| line.parse::<bool>().ok())
+                    .collect();
+
+                //println!("Read LED data: {:?}", led_data);
+                if led_data.len() == 9 {
+                    ui.set_output_headlights(led_data[0]);
+                    ui.set_output_brakes(led_data[1]);
+                    ui.set_output_farlights(led_data[2]);
+                    ui.set_output_left_signal(led_data[3]);
+                    ui.set_output_right_signal(led_data[4]);
+                    ui.set_output_buzzer(led_data[5]);
+                    ui.set_output_flasher(led_data[6]);
+                    ui.set_output_platelights(led_data[7]);
+                    ui.set_output_taillights(led_data[8]);
+                }
+
+                if let Ok(expander) = read_expander_csv(1) {
+                    ui.set_derate(expander[15]);
+                    ui.set_abs(expander[14]);
+                    ui.set_flasher(expander[13]);
+                    ui.set_alarmAmber(expander[12]);
+                    ui.set_akuBattAlarm(expander[11]);
+                    ui.set_motorAlarmMilLamp(expander[10]);
+                    ui.set_alarmRed(expander[9]);
+                    ui.set_leftSignal(expander[8]);
+                    ui.set_battery2_60(expander[7]);
+                    ui.set_ble(expander[6]);
+                    ui.set_battery2_70(expander[5]);
+                    ui.set_battery2_80(expander[4]);
+                    ui.set_battery2_90(expander[3]);
+                    ui.set_battery2_100(expander[2]);
+                    ui.set_rightSignal(expander[1]);
+                    ui.set_battery2Indicator(expander[0]);
+                };
+
+                if let Ok(expander) = read_expander_csv(2) {
+                    ui.set_clockMinuteTensC(expander[15]);
+                    ui.set_clockMinuteTensD(expander[14]);
+                    ui.set_clockMinuteTensE(expander[13]);
+                    ui.set_clockMinuteTensG(expander[12]);
+                    ui.set_clockMinuteTensF(expander[11]);
+                    ui.set_clockMinuteTensA(expander[10]);
+                    ui.set_clockMinuteTensB(expander[9]);
+                    ui.set_clockMinuteOnesE(expander[8]);
+                    ui.set_dateIndicator(expander[7]);
+                    ui.set_clockIndicator(expander[6]);
+                    ui.set_clockMinuteOnesF(expander[5]);
+                    ui.set_clockMinuteOnesA(expander[4]);
+                    ui.set_clockMinuteOnesB(expander[3]);
+                    ui.set_clockMinuteOnesG(expander[2]);
+                    ui.set_clockMinuteOnesC(expander[1]);
+                    ui.set_clockMinuteOnesD(expander[0]);
+                };
+
+                if let Ok(expander) = read_expander_csv(3) {
+                    ui.set_speedHundredsA(expander[15]);
+                    ui.set_speedTensF(expander[14]);
+                    ui.set_speedTensA(expander[13]);
+                    ui.set_speedTensG(expander[12]);
+                    ui.set_speedTensB(expander[11]);
+                    ui.set_speedOnesF(expander[10]);
+                    ui.set_speedOnesA(expander[9]);
+                    ui.set_speedOnesB(expander[8]);
+                    ui.set_speedHundredsB(expander[7]);
+                    ui.set_speedTensD(expander[6]);
+                    ui.set_speedOnesD(expander[5]);
+                    ui.set_speedTensE(expander[4]);
+                    ui.set_speedTensC(expander[3]);
+                    ui.set_speedOnesE(expander[2]);
+                    ui.set_speedOnesC(expander[1]);
+                    ui.set_speedOnesG(expander[0]);
+                }
+
+                if let Ok(expander) = read_expander_csv(4) {
+                    ui.set_readyIndicator(expander[15]);
+                    ui.set_unused1(expander[14]);
+                    ui.set_unused2(expander[13]);
+                    ui.set_driveModeR(expander[12]);
+                    ui.set_driveModeD1(expander[11]);
+                    ui.set_driveModeD2(expander[10]);
+                    ui.set_driveModeD3(expander[9]);
+                    ui.set_driveModeP(expander[8]);
+                    ui.set_unused3(expander[7]);
+                    ui.set_unused4(expander[6]);
+                    ui.set_unused5(expander[5]);
+                    ui.set_unused6(expander[4]);
+                    ui.set_unused7(expander[3]);
+                    ui.set_unused8(expander[2]);
+                    ui.set_unused9(expander[1]);
+                    ui.set_unused10(expander[0]);
+                }
+
+                if let Ok(expander) = read_expander_csv(5) {
+                    ui.set_clockHourTensC(expander[15]);
+                    ui.set_clockHourTensD(expander[14]);
+                    ui.set_clockHourTensE(expander[13]);
+                    ui.set_clockHourTensG(expander[12]);
+                    ui.set_clockMinusIndicator(expander[11]);
+                    ui.set_clockHourTensF(expander[10]);
+                    ui.set_clockHourTensA(expander[9]);
+                    ui.set_clockHourTensB(expander[8]);
+                    ui.set_clockColonIndicator(expander[7]);
+                    ui.set_clockHourOnesA(expander[6]);
+                    ui.set_clockHourOnesB(expander[5]);
+                    ui.set_clockHourOnesG(expander[4]);
+                    ui.set_clockHourOnesC(expander[3]);
+                    ui.set_clockHourOnesD(expander[2]);
+                    ui.set_clockHourOnesE(expander[1]);
+                    ui.set_clockHourOnesF(expander[0]);
+                }
+
+                if let Ok(expander) = read_expander_csv(6) {
+                    ui.set_tripOnesDF(expander[15]);
+                    ui.set_tripOnesD(expander[14]);
+                    ui.set_tripOnesE(expander[13]);
+                    ui.set_tripOnesG(expander[12]);
+                    ui.set_tripOnesF(expander[11]);
+                    ui.set_tripOnesA(expander[10]);
+                    ui.set_tripOnesB(expander[9]);
+                    ui.set_tripOnesC(expander[8]);
+                    ui.set_tripKmIndicator(expander[7]);
+                    ui.set_tripFractionA(expander[6]);
+                    ui.set_tripFractionB(expander[5]);
+                    ui.set_tripFractionG(expander[4]);
+                    ui.set_tripFractionC(expander[3]);
+                    ui.set_tripFractionD(expander[2]);
+                    ui.set_tripFractionE(expander[1]);
+                    ui.set_tripFractionF(expander[0]);
+                }
+
+                if let Ok(expander) = read_expander_csv(7) {
+                    ui.set_clockTemperatureIndicator(expander[15]);
+                    ui.set_powerMinus20(expander[14]);
+                    ui.set_powerMinus30(expander[13]);
+                    ui.set_battery1_10(expander[12]);
+                    ui.set_battery1_20(expander[11]);
+                    ui.set_taillights(expander[10]);
+                    ui.set_headlights(expander[9]);
+                    ui.set_farlights(expander[8]);
+                    ui.set_battery1_30(expander[7]);
+                    ui.set_battery1_40(expander[6]);
+                    ui.set_battery1_50(expander[5]);
+                    ui.set_battery1_60(expander[4]);
+                    ui.set_battery1_70(expander[3]);
+                    ui.set_battery1_80(expander[2]);
+                    ui.set_battery1_90(expander[1]);
+                    ui.set_battery1_100(expander[0]);
+                }
+
+                if let Ok(expander) = read_expander_csv(8) {
+                    ui.set_serviceAlarm(expander[15]);
+                    ui.set_gsmIndicator(expander[14]);
+                    ui.set_battery2_50(expander[13]);
+                    ui.set_battery2_40(expander[12]);
+                    ui.set_kmh(expander[11]);
+                    ui.set_battery2_30(expander[10]);
+                    ui.set_battery2_20(expander[9]);
+                    ui.set_battery2_10(expander[8]);
+                    ui.set_range(expander[7]);
+                    ui.set_powerMinus10(expander[6]);
+                    ui.set_trip(expander[5]);
+                    ui.set_powerPlus10(expander[4]);
+                    ui.set_odo(expander[3]);
+                    ui.set_powerPlus20(expander[2]);
+                    ui.set_powerPlus30(expander[1]);
+                    ui.set_powerPlus40(expander[0]);
+                }
+
+                if let Ok(expander) = read_expander_csv(9) {
+                    ui.set_tripTenthousandsE(expander[15]);
+                    ui.set_tripTenthousandsG(expander[14]);
+                    ui.set_tripTenthousandsF(expander[13]);
+                    ui.set_tripTenthousandsA(expander[12]);
+                    ui.set_tripHundredthousandsBAlt(expander[11]);
+                    ui.set_tripHundredthousandsAUst(expander[10]);
+                    ui.set_powerPlus60(expander[9]);
+                    ui.set_powerPlus50(expander[8]);
+                    ui.set_tripThousandsD(expander[7]);
+                    ui.set_tripThousandsA(expander[6]);
+                    ui.set_tripThousandsE(expander[5]);
+                    ui.set_tripThousandsG(expander[4]);
+                    ui.set_tripThousandsF(expander[3]);
+                    ui.set_tripTenthousandsB(expander[2]);
+                    ui.set_tripTenthousandsC(expander[1]);
+                    ui.set_tripTenthousandsD(expander[0]);
+                }
+
+                if let Ok(expander) = read_expander_csv(10) {
+                    ui.set_tripHundredsB(expander[15]);
+                    ui.set_tripHundredsG(expander[14]);
+                    ui.set_tripHundredsC(expander[13]);
+                    ui.set_tripHundredsD(expander[12]);
+                    ui.set_tripHundredsE(expander[11]);
+                    ui.set_tripHundredsF(expander[10]);
+                    ui.set_tripThousandsB(expander[9]);
+                    ui.set_tripThousandsC(expander[8]);
+                    ui.set_tripHundredsA(expander[7]);
+                    ui.set_tripTensG(expander[6]);
+                    ui.set_tripTensB(expander[5]);
+                    ui.set_tripTensC(expander[4]);
+                    ui.set_tripTensD(expander[3]);
+                    ui.set_tripTensE(expander[2]);
+                    ui.set_tripTensF(expander[1]);
+                    ui.set_tripTensA(expander[0]);
+                }
+            },
+        );
+
+        ui.run()
+    });
+
+    let _ = tokio::join!(reader_task, writer_task, ui_task);
     Ok(())
 }
 
@@ -443,7 +703,8 @@ async fn send_extended_frame(writer: &mut (impl AsyncWriteExt + Unpin), frame: E
 }
 
 pub async fn handle_expander(id: u32, data: &[u8]) {
-    // Ensure we have at least 2 bytes of data.
+    // Ensure we have exactly 2 bytes of data.
+    eprintln!("Handling id: {}, with data: {:?}", id, data);
     if data.len() < 2 {
         eprintln!(
             "Expected at least 2 bytes of data for expander id {}, but got {}",
@@ -466,9 +727,10 @@ pub async fn handle_expander(id: u32, data: &[u8]) {
     let expander_num = id - 99;
     let file_path = format!("expanders/expander{}.csv", expander_num);
 
-    // Convert the first two bytes into a vector of bit strings (MSB to LSB).
+    // Convert the first two bytes into a vector of bit strings (MSB-first order).
     let mut bits = Vec::with_capacity(16);
     for byte in &data[0..2] {
+        // Iterate from bit 7 down to bit 0.
         for i in (0..8).rev() {
             let bit = (byte >> i) & 1;
             bits.push(bit.to_string());
@@ -486,10 +748,11 @@ pub async fn handle_expander(id: u32, data: &[u8]) {
         }
     }
 
-    // Open the CSV file in append mode (or create it if it doesn't exist).
+    // Open the CSV file in write mode with truncation.
     let mut file = match OpenOptions::new()
         .create(true)
-        .append(true)
+        .write(true)
+        .truncate(true) // This will overwrite the file each time.
         .open(&file_path)
         .await
     {
@@ -507,4 +770,59 @@ pub async fn handle_expander(id: u32, data: &[u8]) {
     if let Err(e) = file.write_all(b"\n").await {
         eprintln!("Error writing newline to file {}: {}", file_path, e);
     }
+}
+
+pub fn read_expander_csv(expander_num: u32) -> Result<[bool; 16], Box<dyn std::error::Error>> {
+    let file_path = format!("expanders/expander{}.csv", expander_num);
+
+    // Open the file.
+    let mut file =
+        File::open(&file_path).map_err(|e| format!("Failed to open {}: {}", file_path, e))?;
+
+    // Read the file content into a string.
+    let mut contents = String::new();
+    file.read_to_string(&mut contents)
+        .map_err(|e| format!("Failed to read {}: {}", file_path, e))?;
+
+    // Get the first non-empty line.
+    let line = contents
+        .lines()
+        .find(|line| !line.trim().is_empty())
+        .ok_or("CSV file is empty or has no valid data")?;
+
+    // Split the line by commas, trim whitespace, and parse each value as u8,
+    // converting each value to a bool.
+    let bool_values: Result<Vec<bool>, Box<dyn std::error::Error>> = line
+        .split(',')
+        .map(|s| {
+            let trimmed = s.trim();
+            let value: u8 = trimmed
+                .parse()
+                .map_err(|_| format!("Failed to parse '{}' as u8", trimmed))?;
+            match value {
+                0 => Ok(false),
+                1 => Ok(true),
+                _ => Err(format!("Invalid value '{}': expected 0 or 1", value).into()),
+            }
+        })
+        .collect();
+
+    let bool_values = bool_values?;
+
+    // Ensure that we got exactly 16 values.
+    if bool_values.len() != 16 {
+        return Err(format!(
+            "Expected 16 values in {}, but got {}",
+            file_path,
+            bool_values.len()
+        )
+        .into());
+    }
+
+    // Convert the Vec<bool> into an array of 16 elements.
+    let array: [bool; 16] = bool_values
+        .try_into()
+        .map_err(|_| "Conversion to array failed")?;
+
+    Ok(array)
 }
