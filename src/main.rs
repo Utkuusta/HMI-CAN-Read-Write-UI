@@ -11,9 +11,12 @@ use tokio::fs::{create_dir_all, OpenOptions};
 use tokio::io::{AsyncBufReadExt, AsyncReadExt, AsyncWriteExt, BufReader};
 use tokio_serial::SerialPortBuilderExt;
 
+use crate::diagnostics::{FlashLamp, Lamp, FMI};
+
 slint::include_modules!();
 
 mod dbc;
+mod diagnostics;
 
 #[derive(Debug)]
 pub struct CANFrame {
@@ -160,6 +163,290 @@ impl ExtendedCANFrame {
     }
 }
 
+#[derive(Debug, Copy, Clone)]
+struct ProprietaryB5States {
+    pub brake_switch_rear: u8,
+    pub kickstand_switch: u8,
+    pub brake_switch_front: u8,
+}
+
+impl ProprietaryB5States {
+    pub fn new() -> Self {
+        Self {
+            brake_switch_rear: 0,
+            kickstand_switch: 0,
+            brake_switch_front: 0,
+        }
+    }
+    pub fn toggle_brake_switch_rear(&mut self) {
+        if self.brake_switch_rear == 0 {
+            self.brake_switch_rear = 1;
+        } else {
+            self.brake_switch_rear = 0;
+        }
+    }
+    pub fn toggle_brake_switch_front(&mut self) {
+        if self.brake_switch_front == 0 {
+            self.brake_switch_front = 1;
+        } else {
+            self.brake_switch_front = 0;
+        }
+    }
+    pub fn toggle_kickstand_switch(&mut self) {
+        if self.kickstand_switch == 0 {
+            self.kickstand_switch = 1;
+        } else {
+            self.kickstand_switch = 0;
+        }
+    }
+}
+
+#[derive(Debug, Copy, Clone)]
+pub struct SwitchedPowerOutputStates {
+    pub output_0: u8,
+    pub output_1: u8,
+    pub output_2: u8,
+    pub output_3: u8,
+    pub output_4: u8,
+    pub output_5: u8,
+    pub output_6: u8,
+    pub output_7: u8,
+    pub output_8: u8,
+    pub output_9: u8,
+    pub output_10: u8,
+    pub high_current_0: u8,
+    pub high_current_1: u8,
+}
+
+impl SwitchedPowerOutputStates {
+    pub fn new() -> Self {
+        Self {
+            output_0: 0,
+            output_1: 0,
+            output_2: 0,
+            output_3: 0,
+            output_4: 0,
+            output_5: 0,
+            output_6: 0,
+            output_7: 0,
+            output_8: 0,
+            output_9: 0,
+            output_10: 0,
+            high_current_0: 0,
+            high_current_1: 0,
+        }
+    }
+
+    pub fn toggle_output_0(&mut self) {
+        if self.output_0 == 0 {
+            self.output_0 = 1;
+        } else {
+            self.output_0 = 0;
+        }
+    }
+
+    pub fn toggle_output_1(&mut self) {
+        if self.output_1 == 0 {
+            self.output_1 = 1;
+        } else {
+            self.output_1 = 0;
+        }
+    }
+
+    pub fn toggle_output_2(&mut self) {
+        if self.output_2 == 0 {
+            self.output_2 = 1;
+        } else {
+            self.output_2 = 0;
+        }
+    }
+
+    pub fn toggle_output_3(&mut self) {
+        if self.output_3 == 0 {
+            self.output_3 = 1;
+        } else {
+            self.output_3 = 0;
+        }
+    }
+
+    pub fn toggle_output_4(&mut self) {
+        if self.output_4 == 0 {
+            self.output_4 = 1;
+        } else {
+            self.output_4 = 0;
+        }
+    }
+
+    pub fn toggle_output_5(&mut self) {
+        if self.output_5 == 0 {
+            self.output_5 = 1;
+        } else {
+            self.output_5 = 0;
+        }
+    }
+
+    pub fn toggle_output_6(&mut self) {
+        if self.output_6 == 0 {
+            self.output_6 = 1;
+        } else {
+            self.output_6 = 0;
+        }
+    }
+
+    pub fn toggle_output_7(&mut self) {
+        if self.output_7 == 0 {
+            self.output_7 = 1;
+        } else {
+            self.output_7 = 0;
+        }
+    }
+
+    pub fn toggle_output_8(&mut self) {
+        if self.output_8 == 0 {
+            self.output_8 = 1;
+        } else {
+            self.output_8 = 0;
+        }
+    }
+
+    pub fn toggle_output_9(&mut self) {
+        if self.output_9 == 0 {
+            self.output_9 = 1;
+        } else {
+            self.output_9 = 0;
+        }
+    }
+
+    pub fn toggle_output_10(&mut self) {
+        if self.output_10 == 0 {
+            self.output_10 = 1;
+        } else {
+            self.output_10 = 0;
+        }
+    }
+
+    pub fn toggle_high_current_0(&mut self) {
+        if self.high_current_0 == 0 {
+            self.high_current_0 = 1;
+        } else {
+            self.high_current_0 = 0;
+        }
+    }
+
+    pub fn toggle_high_current_1(&mut self) {
+        if self.high_current_1 == 0 {
+            self.high_current_1 = 1;
+        } else {
+            self.high_current_1 = 0;
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy)]
+pub struct ActiveDiagnosticTroubleCodesPDIO {
+    pub protect_lamp: Lamp,
+    pub amber_warning: Lamp,
+    pub red_stop: Lamp,
+    pub malfunction: Lamp,
+    pub protect_lamp_flash: FlashLamp,
+    pub amber_warning_flash: FlashLamp,
+    pub red_stop_flash: FlashLamp,
+    pub malfunction_flash: FlashLamp,
+    pub source_spn: u32,       // 19 bits
+    pub failure_mode: FMI,     // 5 bits
+    pub occurrence_count: u8,  // 7 bits
+    pub conv_method_old: bool, // 1 bit
+    pub reserved: u16,         // 16 bits
+}
+
+impl ActiveDiagnosticTroubleCodesPDIO {
+    pub fn new() -> Self {
+        Self {
+            protect_lamp: Lamp::Off,
+            amber_warning: Lamp::Off,
+            red_stop: Lamp::Off,
+            malfunction: Lamp::Off,
+            protect_lamp_flash: FlashLamp::DoNotFlash,
+            amber_warning_flash: FlashLamp::DoNotFlash,
+            red_stop_flash: FlashLamp::DoNotFlash,
+            malfunction_flash: FlashLamp::DoNotFlash,
+            source_spn: 0,
+            failure_mode: FMI::DataValidAboveNormalOpRange,
+            occurrence_count: 0,
+            conv_method_old: false,
+            reserved: 0xFFFF,
+        }
+    }
+
+    pub fn toggle_protect_lamp(&mut self) {
+        self.protect_lamp = match self.protect_lamp {
+            Lamp::Off => Lamp::On,
+            Lamp::On => Lamp::Off,
+            _ => Lamp::Off,
+        };
+    }
+
+    pub fn toggle_amber_warning(&mut self) {
+        self.amber_warning = match self.amber_warning {
+            Lamp::Off => Lamp::On,
+            Lamp::On => Lamp::Off,
+            _ => Lamp::Off,
+        };
+    }
+
+    pub fn toggle_red_stop(&mut self) {
+        self.red_stop = match self.red_stop {
+            Lamp::Off => Lamp::On,
+            Lamp::On => Lamp::Off,
+            _ => Lamp::Off,
+        };
+    }
+
+    pub fn toggle_malfunction(&mut self) {
+        self.malfunction = match self.malfunction {
+            Lamp::Off => Lamp::On,
+            Lamp::On => Lamp::Off,
+            _ => Lamp::Off,
+        };
+    }
+
+    pub fn toggle_protect_lamp_flash(&mut self) {
+        self.protect_lamp_flash = match self.protect_lamp_flash {
+            FlashLamp::DoNotFlash => FlashLamp::SlowFlash,
+            FlashLamp::SlowFlash => FlashLamp::DoNotFlash,
+            FlashLamp::FastFlash => FlashLamp::DoNotFlash,
+            _ => FlashLamp::DoNotFlash,
+        };
+    }
+
+    pub fn toggle_amber_warning_flash(&mut self) {
+        self.amber_warning_flash = match self.amber_warning_flash {
+            FlashLamp::DoNotFlash => FlashLamp::SlowFlash,
+            FlashLamp::SlowFlash => FlashLamp::DoNotFlash,
+            FlashLamp::FastFlash => FlashLamp::DoNotFlash,
+            _ => FlashLamp::DoNotFlash,
+        };
+    }
+
+    pub fn toggle_red_stop_flash(&mut self) {
+        self.red_stop_flash = match self.red_stop_flash {
+            FlashLamp::DoNotFlash => FlashLamp::SlowFlash,
+            FlashLamp::SlowFlash => FlashLamp::DoNotFlash,
+            FlashLamp::FastFlash => FlashLamp::DoNotFlash,
+            _ => FlashLamp::DoNotFlash,
+        };
+    }
+
+    pub fn toggle_malfunction_flash(&mut self) {
+        self.malfunction_flash = match self.malfunction_flash {
+            FlashLamp::DoNotFlash => FlashLamp::SlowFlash,
+            FlashLamp::SlowFlash => FlashLamp::DoNotFlash,
+            FlashLamp::FastFlash => FlashLamp::DoNotFlash,
+            _ => FlashLamp::DoNotFlash,
+        };
+    }
+}
+
 #[tokio::main]
 async fn main() -> io::Result<()> {
     let port_name = r"\\.\COM11"; // Adjust for your system.
@@ -231,6 +518,8 @@ async fn main() -> io::Result<()> {
     // Task for handling keyboard input and sending frames.
     let writer_task = tokio::spawn(async move {
         let mut toggle_states: HashMap<u8, bool> = HashMap::new();
+        let mut proprietary_b5_states: ProprietaryB5States = ProprietaryB5States::new();
+        let mut switched_power_output_states = SwitchedPowerOutputStates::new();
         let mut throttle_value: u8 = 0;
         let mut engine_speed: u16 = 0;
         let stdin = BufReader::new(tokio::io::stdin());
@@ -289,7 +578,7 @@ async fn main() -> io::Result<()> {
                     if throttle_value < 100 {
                         throttle_value += 5;
                     }
-                    let data = encode_proprietary_a(throttle_value as f64);
+                    let data = encode_proprietary_b4(throttle_value as f64);
 
                     // Note: The raw id (without the extended flag) is used here.
                     let ext_frame = ExtendedCANFrame {
@@ -305,7 +594,7 @@ async fn main() -> io::Result<()> {
                     if throttle_value > 0 {
                         throttle_value -= 5;
                     }
-                    let data = encode_proprietary_a(throttle_value as f64);
+                    let data = encode_proprietary_b4(throttle_value as f64);
 
                     // Note: The raw id (without the extended flag) is used here.
                     let ext_frame = ExtendedCANFrame {
@@ -392,10 +681,267 @@ async fn main() -> io::Result<()> {
                     // IMPORTANT: Use custom framing so the analyzer can pick up the frame.
                     send_extended_frame(&mut writer, ext_frame).await;
                 }
+                "23" => {
+                    //Toggle brake_rear and send Proprietary_b5 message.
+                    proprietary_b5_states.toggle_brake_switch_rear();
+
+                    let data = encode_proprietary_b5(proprietary_b5_states);
+
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566849822,
+                        dlc: 8,
+                        data,
+                    };
+
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "24" => {
+                    //Toggle brake_switch_front and send Proprietary_b5 message.
+                    proprietary_b5_states.toggle_brake_switch_front();
+
+                    let data = encode_proprietary_b5(proprietary_b5_states);
+
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566849822,
+                        dlc: 8,
+                        data,
+                    };
+
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "25" => {
+                    //Toggle kickstand_switch and send Proprietary_b5 message.
+                    proprietary_b5_states.toggle_kickstand_switch();
+
+                    let data = encode_proprietary_b5(proprietary_b5_states);
+
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566849822,
+                        dlc: 8,
+                        data,
+                    };
+
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "26" => {
+                    // Toggle output_0 and send Switched_Power_Output_Status message
+                    switched_power_output_states.toggle_output_0();
+                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566698014,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "27" => {
+                    switched_power_output_states.toggle_output_1();
+                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566698014,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "28" => {
+                    switched_power_output_states.toggle_output_2();
+                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566698014,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "29" => {
+                    switched_power_output_states.toggle_output_3();
+                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566698014,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "30" => {
+                    switched_power_output_states.toggle_output_4();
+                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566698014,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "31" => {
+                    switched_power_output_states.toggle_output_5();
+                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566698014,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "32" => {
+                    switched_power_output_states.toggle_output_6();
+                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566698014,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "33" => {
+                    switched_power_output_states.toggle_output_7();
+                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566698014,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "34" => {
+                    switched_power_output_states.toggle_output_8();
+                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566698014,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "35" => {
+                    switched_power_output_states.toggle_output_9();
+                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566698014,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "36" => {
+                    switched_power_output_states.toggle_output_10();
+                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566698014,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "37" => {
+                    switched_power_output_states.toggle_high_current_0();
+                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566698014,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "38" => {
+                    switched_power_output_states.toggle_high_current_1();
+                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566698014,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "40" => {
+                    // Absolute overtemperature of the Battery Pack
+
+                    let data = encode_active_diagnostic_trouble_codes_pdio(
+                        ActiveDiagnosticTroubleCodesPDIO {
+                            protect_lamp: Lamp::Off,
+                            amber_warning: Lamp::Off,
+                            red_stop: Lamp::On,
+                            malfunction: Lamp::Off,
+                            protect_lamp_flash: FlashLamp::DoNotFlash,
+                            amber_warning_flash: FlashLamp::DoNotFlash,
+                            red_stop_flash: FlashLamp::DoNotFlash,
+                            malfunction_flash: FlashLamp::DoNotFlash,
+                            source_spn: 8121,
+                            failure_mode: FMI::DataValidAboveNormalOpRange,
+                            occurrence_count: 1,
+                            conv_method_old: false,
+                            reserved: 0xFF,
+                        },
+                    );
+
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566834718,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "41" => {
+                    // Absolute overtemperature of the Battery Pack
+
+                    let data = encode_active_diagnostic_trouble_codes_pdio(
+                        ActiveDiagnosticTroubleCodesPDIO {
+                            protect_lamp: Lamp::Off,
+                            amber_warning: Lamp::On,
+                            red_stop: Lamp::Off,
+                            malfunction: Lamp::On,
+                            protect_lamp_flash: FlashLamp::DoNotFlash,
+                            amber_warning_flash: FlashLamp::DoNotFlash,
+                            red_stop_flash: FlashLamp::DoNotFlash,
+                            malfunction_flash: FlashLamp::DoNotFlash,
+                            source_spn: 8077,
+                            failure_mode: FMI::DataValidAboveNormalOpRange,
+                            occurrence_count: 1,
+                            conv_method_old: false,
+                            reserved: 0xFF,
+                        },
+                    );
+
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566834718,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "42" => {
+                    // Absolute overtemperature of the Battery Pack
+
+                    let data = encode_active_diagnostic_trouble_codes_pdio(
+                        ActiveDiagnosticTroubleCodesPDIO {
+                            protect_lamp: Lamp::Off,
+                            amber_warning: Lamp::Off,
+                            red_stop: Lamp::On,
+                            malfunction: Lamp::Off,
+                            protect_lamp_flash: FlashLamp::DoNotFlash,
+                            amber_warning_flash: FlashLamp::DoNotFlash,
+                            red_stop_flash: FlashLamp::FastFlash,
+                            malfunction_flash: FlashLamp::DoNotFlash,
+                            source_spn: 5917,
+                            failure_mode: FMI::DataValidButBelowNormalOpRangeLeastSevere,
+                            occurrence_count: 1,
+                            conv_method_old: false,
+                            reserved: 0xFF,
+                        },
+                    );
+
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566834718,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
                 _ => {
                     // Toggle states for commands 7..21.
                     if let Ok(num) = command.parse::<u8>() {
-                        if (7..=21).contains(&num) {
+                        if (7..=22).contains(&num) {
                             let state = toggle_states.entry(num).or_insert(false);
                             *state = !*state;
                             let value = if *state { 1 } else { 0 };
@@ -404,7 +950,7 @@ async fn main() -> io::Result<()> {
                                 dlc: 4,
                                 data: {
                                     let mut d = [0u8; 8];
-                                    d[0] = value;
+                                    d[3] = value;
                                     d
                                 },
                             };

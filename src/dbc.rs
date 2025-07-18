@@ -1,4 +1,7 @@
-use std::fmt;
+use crate::{
+    diagnostics::DM1Packet, ActiveDiagnosticTroubleCodesPDIO, ProprietaryB5States,
+    SwitchedPowerOutputStates,
+};
 
 // Known CAN IDs for each message.
 const ENGINE_CONTROLLER1_CAN_ID: u32 = 2364540158;
@@ -7,6 +10,7 @@ const HVESS_DATA1_CAN_ID: u32 = 2565866752;
 const HYBRID_EV_STATUS1_CAN_ID: u32 = 2566701822;
 const VEHICLE_IDENTIFICATION_CAN_ID: u32 = 2566843646;
 const PROPRIETARY_A_CAN_ID: u32 = 2364473598; // New message
+const PROPRIETARY_B5_CAN_ID: u32 = 2566849566;
 
 /// Encodes the Electronic_Engine_Controller_1 message:
 ///   SG_ Engine_Speed : 24|16@1+ (0.125,0) "rpm"
@@ -116,17 +120,92 @@ pub fn encode_vehicle_identification(vin: u64) -> [u8; 8] {
     vin.to_le_bytes()
 }
 
-/// Encodes the Proprietary_A message:
-///   SG_ Accelerator_Pedal_1_Position : 8|8@1+ (0.4,0) [0|100] "%
+/// Encodes the Proprietary_B4 message:
+///   SG_ Accelerator_Pedal_1_Position : 8|8@1+ (0.4,0) [0|100] "%"
 ///
 /// The signal is placed at bits 8–15 of the 8-byte frame.
 /// Raw value is computed as physical_value / 0.4.
-pub fn encode_proprietary_a(accelerator_pedal_position: f64) -> [u8; 8] {
+pub fn encode_proprietary_b4(accelerator_pedal_position: f64) -> [u8; 8] {
     let raw = (accelerator_pedal_position / 0.4).round() as u8;
     let mut data: u64 = 0;
     data |= (raw as u64) << 8;
     data.to_le_bytes()
 }
+
+/// Encodes the Proprietary_B5 message:
+///   SG_ Kickstand_Switch   : 0|2@1+ (1,0) [0|1]
+///   SG_ Brake_Switch_Front : 16|2@1+ (1,0) [0|1]
+///   SG_ Brake_Switch_Rear  : 24|2@1+ (1,0) [0|1]
+///
+/// Each signal uses 2 bits (even if the value is only 0 or 1), little-endian, unsigned.
+pub fn encode_proprietary_b5(proprietary_b5_states: ProprietaryB5States) -> [u8; 8] {
+    let mut data: u64 = 0;
+    data |= ((proprietary_b5_states.kickstand_switch & 0x03) as u64) << 0; // bits 0–1
+    data |= ((proprietary_b5_states.brake_switch_front & 0x03) as u64) << 16; // bits 16–17
+    data |= ((proprietary_b5_states.brake_switch_rear & 0x03) as u64) << 24; // bits 24–25
+    data.to_le_bytes()
+}
+
+/// Encodes the Switched_Power_Output_Status message:
+///   SG_ Output_0_State             : 0|2@1+
+///   SG_ Output_1_State             : 2|2@1+
+///   SG_ Output_2_State             : 4|2@1+
+///   SG_ Output_3_State             : 6|2@1+
+///   SG_ Output_4_State             : 8|2@1+
+///   SG_ Output_5_State             : 10|2@1+
+///   SG_ Output_6_State             : 12|2@1+
+///   SG_ Output_7_State             : 14|2@1+
+///   SG_ Output_8_State             : 16|2@1+
+///   SG_ Output_9_State             : 18|2@1+
+///   SG_ Output_10_State            : 20|2@1+
+///   SG_ Output_HighCurrent_0_State: 48|2@1+
+///   SG_ Output_HighCurrent_1_State: 50|2@1+
+///
+/// Each signal is 2 bits, unsigned, placed at its specified bit offset.
+pub fn encode_switched_power_output_status(
+    switched_power_output_states: SwitchedPowerOutputStates,
+) -> [u8; 8] {
+    let mut data: u64 = 0;
+
+    data |= (switched_power_output_states.output_0 as u64) << 0;
+    data |= (switched_power_output_states.output_1 as u64) << 2;
+    data |= (switched_power_output_states.output_2 as u64) << 4;
+    data |= (switched_power_output_states.output_3 as u64) << 6;
+    data |= (switched_power_output_states.output_4 as u64) << 8;
+    data |= (switched_power_output_states.output_5 as u64) << 10;
+    data |= (switched_power_output_states.output_6 as u64) << 12;
+    data |= (switched_power_output_states.output_7 as u64) << 14;
+    data |= (switched_power_output_states.output_8 as u64) << 16;
+    data |= (switched_power_output_states.output_9 as u64) << 18;
+    data |= (switched_power_output_states.output_10 as u64) << 20;
+
+    data |= (switched_power_output_states.high_current_0 as u64) << 48;
+    data |= (switched_power_output_states.high_current_1 as u64) << 50;
+
+    data.to_le_bytes()
+}
+
+pub fn encode_active_diagnostic_trouble_codes_pdio(
+    dtc: ActiveDiagnosticTroubleCodesPDIO,
+) -> [u8; 8] {
+    let packet = DM1Packet::new()
+        .with_protect_lamp(dtc.protect_lamp)
+        .with_amber_warning(dtc.amber_warning)
+        .with_red_stop(dtc.red_stop)
+        .with_malfunction(dtc.malfunction)
+        .with_protect_lamp_flash(dtc.protect_lamp_flash)
+        .with_amber_warning_flash(dtc.amber_warning_flash)
+        .with_red_stop_flash(dtc.red_stop_flash)
+        .with_malfunction_flash(dtc.malfunction_flash)
+        .with_spn(dtc.source_spn & 0x7FFFF)
+        .with_fmi(dtc.failure_mode)
+        .with_occurence_count(dtc.occurrence_count & 0x7F)
+        .with_spn_conversion_method_is_old(dtc.conv_method_old)
+        .with_reserved(dtc.reserved);
+
+    packet.into_bits().to_le_bytes()
+}
+
 /*
 fn main() {
     // Electronic_Engine_Controller_1 example:
