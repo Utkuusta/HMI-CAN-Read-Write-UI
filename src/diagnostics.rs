@@ -219,3 +219,24 @@ impl TPCMPacketType {
         }
     }
 }
+
+/// Struct for DM3 Active Diagnostic Trouble Codes Packet
+#[bitfield(u64)]
+pub struct DM3Packet {
+    /// J1939-73 requires of there is no malfunction these should be zeroed
+    #[bits(19, default = 0x000000)]
+    pub spn: u32,
+    /// J1939-73 requires of there is no malfunction these should be zeroed
+    /// It is unfortunate here cause it is addressed to a fault
+    #[bits(5, default = FMI::DataValidAboveNormalOpRange)]
+    pub fmi: FMI,
+    /// J1939-73 requires of there is no malfunction these should be zeroed
+    #[bits(7, default = 0x00)]
+    pub occurrence_count: u8,
+    /// J1939-73 requires of there is no malfunction these should be zeroed
+    #[bits(1, default = false)]
+    pub spn_conversion_method_is_old: bool,
+    /// J1939-73 requires of there is no malfunction these should be oned.
+    #[bits(32, default = 0xffffffff)]
+    pub reserved: u32, // pad to 64 bits total
+}

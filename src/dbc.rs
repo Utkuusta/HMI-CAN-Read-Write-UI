@@ -1,6 +1,6 @@
 use crate::{
-    diagnostics::DM1Packet, ActiveDiagnosticTroubleCodesPDIO, ProprietaryB5States,
-    SwitchedPowerOutputStates,
+    diagnostics::{DM1Packet, DM3Packet, FMI},
+    ActiveDiagnosticTroubleCodesPDIO, ProprietaryB5States, SwitchedPowerOutputStates,
 };
 
 // Known CAN IDs for each message.
@@ -202,6 +202,17 @@ pub fn encode_active_diagnostic_trouble_codes_pdio(
         .with_occurence_count(dtc.occurrence_count & 0x7F)
         .with_spn_conversion_method_is_old(dtc.conv_method_old)
         .with_reserved(dtc.reserved);
+
+    packet.into_bits().to_le_bytes()
+}
+
+pub fn encode_dm3packet(spn: u32, fmi: FMI, occurrence_count: u8) -> [u8; 8] {
+    let packet = DM3Packet::new()
+        .with_spn(spn & 0x7FFFF) // 19 bits
+        .with_fmi(fmi)
+        .with_occurrence_count(occurrence_count & 0x7F) // 7 bits
+        .with_spn_conversion_method_is_old(false)
+        .with_reserved(0xFFFF_FFFF); // 32 bits reserved set to all ones
 
     packet.into_bits().to_le_bytes()
 }

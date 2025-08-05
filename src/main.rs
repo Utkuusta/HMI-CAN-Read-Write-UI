@@ -938,6 +938,26 @@ async fn main() -> io::Result<()> {
                     };
                     send_extended_frame(&mut writer, ext_frame).await;
                 }
+                "43" => {
+                    // DM3 Clear Fault: Absolute overtemperature of the Battery Pack
+                    // Create the DM3Packet and get data bytes
+                    let data =
+                        encode_dm3packet(5917, FMI::DataValidButBelowNormalOpRangeLeastSevere, 1);
+
+                    // Construct the correct CAN ID for DM3 (PGN 65228)
+                    // 0x18FECC00 is PGN 65228 with priority 6 (0x6 << 26)
+                    // The source address (last 8 bits) should be set as needed; here using 0x06 as example
+                    let can_id = 0x18FECC00 | 0x06; // priority 6 + PGN 0xFECC + source address 0x06
+
+                    let ext_frame = ExtendedCANFrame {
+                        id: can_id,
+                        dlc: 8,
+                        data,
+                    };
+
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+
                 _ => {
                     // Toggle states for commands 7..21.
                     if let Ok(num) = command.parse::<u8>() {
@@ -1034,7 +1054,7 @@ async fn main() -> io::Result<()> {
                     ui.set_alarmAmber(expander[12]);
                     ui.set_akuBattAlarm(expander[11]);
                     ui.set_motorAlarmMilLamp(expander[10]);
-                    ui.set_alarmRed(expander[9]);
+                    ui.set_battery1Indicator(expander[9]);
                     ui.set_leftSignal(expander[8]);
                     ui.set_battery2_60(expander[7]);
                     ui.set_ble(expander[6]);
@@ -1098,7 +1118,7 @@ async fn main() -> io::Result<()> {
                     ui.set_unused5(expander[5]);
                     ui.set_unused6(expander[4]);
                     ui.set_unused7(expander[3]);
-                    ui.set_unused8(expander[2]);
+                    ui.set_alarmRed(expander[2]);
                     ui.set_unused9(expander[1]);
                     ui.set_unused10(expander[0]);
                 }

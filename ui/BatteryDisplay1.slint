@@ -11,13 +11,15 @@ export component BatteryDisplay1 inherits HorizontalBox {
     in-out property <bool> battery80;
     in-out property <bool> battery90;
     in-out property <bool> battery100;
+    in-out property <bool> battery1_indicator;
 
         VerticalBox {
             Text {
-                width: 70px/2;
+                width: 80px/2;
                 height: 55px/2;
                 text: "Batt1";
-            color: #1068f6;}
+            color: battery1_indicator ? #1068f6 : #333;}
+                 
                  
             Rectangle {
                 width: 50px/2;

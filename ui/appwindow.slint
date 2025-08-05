@@ -22,7 +22,7 @@ export component AppWindow inherits Window {
     in-out property <bool> alarmAmber;
     in-out property <bool> akuBattAlarm;
     in-out property <bool> motorAlarmMilLamp;
-    in-out property <bool> alarmRed;
+    in-out property <bool> battery1Indicator;
     in-out property <bool> leftSignal;
     in-out property <bool> battery2_60;
     in-out property <bool> ble;
@@ -83,7 +83,7 @@ export component AppWindow inherits Window {
     in-out property <bool> unused5;
     in-out property <bool> unused6;
     in-out property <bool> unused7;
-    in-out property <bool> unused8;
+    in-out property <bool> alarmRed;
     in-out property <bool> unused9;
     in-out property <bool> unused10;
 
@@ -242,6 +242,7 @@ export component AppWindow inherits Window {
         HorizontalBox {
             padding-left: 100px;
             BatteryDisplay1 {
+                battery1_indicator: battery1Indicator;
                 battery10: battery1_10;
                 battery20: battery1_20;
                 battery30: battery1_30;
