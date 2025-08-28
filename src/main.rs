@@ -1096,8 +1096,8 @@ async fn main() -> io::Result<()> {
                     ui.set_speedOnesB(expander[8]);
                     ui.set_speedHundredsB(expander[7]);
                     ui.set_speedTensD(expander[6]);
-                    ui.set_speedOnesD(expander[5]);
-                    ui.set_speedTensE(expander[4]);
+                    ui.set_speedTensE(expander[5]);
+                    ui.set_speedOnesD(expander[4]);
                     ui.set_speedTensC(expander[3]);
                     ui.set_speedOnesE(expander[2]);
                     ui.set_speedOnesC(expander[1]);

@@ -1,5 +1,4 @@
 import { Button, VerticalBox, HorizontalBox} from "std-widgets.slint";
-import { Outputs } from "outputs.slint";
 import { SevenSegmentDisplay } from "sevensegment.slint";
 import { SpeedDisplay } from "SpeedDisplay.slint";
 import { BatteryDisplay1 } from "BatteryDisplay1.slint";
@@ -307,18 +306,6 @@ export component AppWindow inherits Window {
                 hundredssmall: [tripHundredthousandsBAlt, tripHundredthousandsAUst];
             }
         }
-    }
-    Outputs {
-        left_signal: output_left_signal;
-        right_signal: output_right_signal;
-        headlights: output_headlights;
-        farlights: output_farlights;
-        brakes: output_brakes;
-        flasher: output_flasher;
-        buzzer: output_buzzer;
-        platelights: output_platelights;
-        taillights: output_taillights;
-        horn: output_horn;
     }
    }
    
