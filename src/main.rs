@@ -467,6 +467,7 @@ async fn main() -> io::Result<()> {
     let reader_task = tokio::spawn(async move {
         let mut buffer: Vec<u8> = Vec::new();
         let mut read_buf = [0u8; 128];
+
         loop {
             match reader.read(&mut read_buf).await {
                 Ok(n) if n == 0 => continue,
@@ -475,36 +476,88 @@ async fn main() -> io::Result<()> {
                     println!("Raw buffer in hex: {:02X?}", buffer);
 
                     // Process frames delimited by 0xAA ... 0x55.
-                    while let Some(start) = buffer.iter().position(|&b| b == 0xAA) {
-                        if let Some(end) = buffer[start..].iter().position(|&b| b == 0x55) {
-                            let frame_bytes = &buffer[start + 1..start + end];
-                            if let Some(xframe) = ExtendedCANFrame::from_bytes(frame_bytes) {
-                                println!(
-                                    "Received Extended CAN Frame: ID=0x{:08X}, DLC={}, Data={:02X?}",
-                                    xframe.id,
-                                    xframe.dlc,
-                                    &xframe.data[..xframe.dlc as usize]
-                                );
-                            } else if let Some(sframe) = CANFrame::from_bytes(frame_bytes) {
-                                println!(
-                                    "Received Standard CAN Frame: ID={}, DLC={}, Data={:02X?}",
-                                    sframe.id,
-                                    sframe.dlc,
-                                    &sframe.data[..sframe.dlc as usize]
-                                );
-                                if sframe.id >= 100 && sframe.id < 110 {
-                                    handle_expander(
-                                        sframe.id.into(),
-                                        &sframe.data[..sframe.dlc as usize],
-                                    )
-                                    .await;
-                                }
-                            }
-                            buffer.drain(..start + end + 1);
-                        } else {
+                    // Also accept back-to-back 0xAA as boundaries.
+                    loop {
+                        // Find start marker
+                        let Some(start) = buffer.iter().position(|&b| b == 0xAA) else {
+                            // No start marker at all: clear buffer (noise) and wait for more bytes
+                            buffer.clear();
+                            break;
+                        };
+
+                        // Keep only the potential frame (drop leading noise before start)
+                        if start > 0 {
                             buffer.drain(..start);
+                        }
+
+                        // Now buffer[0] == 0xAA (start)
+                        if buffer.len() <= 1 {
+                            // Incomplete (only start byte so far), wait for more
                             break;
                         }
+
+                        // Examine bytes after the start marker
+                        let rest = &buffer[1..];
+
+                        // Earliest 0x55 (end) and next 0xAA (start of a new frame)
+                        let rel_end55 = rest.iter().position(|&b| b == 0x55);
+                        let rel_next_aa = rest.iter().position(|&b| b == 0xAA);
+
+                        // Decide frame end (exclusive) and how much to drain from buffer
+                        let (end_exclusive, drain_upto) = match (rel_end55, rel_next_aa) {
+                            // Next AA appears before any 55 -> end right before that AA, keep that AA for next loop
+                            (Some(p55), Some(paa)) if paa < p55 => (1 + paa, 1 + paa),
+                            // Found a 55 (and either no AA or AA is after 55) -> consume up to and including 55
+                            (Some(p55), _) => (1 + p55, 1 + p55 + 1),
+                            // No 55, but a next AA -> end before that AA, keep AA
+                            (None, Some(paa)) => (1 + paa, 1 + paa),
+                            // Neither 55 nor AA yet -> incomplete frame; keep from start and wait for more
+                            (None, None) => break,
+                        };
+
+                        // frame_bytes are between AA and the chosen boundary (exclusive)
+                        let frame_bytes = &buffer[1..end_exclusive];
+
+                        if frame_bytes.is_empty() {
+                            // Malformed/empty; drop the start byte to avoid infinite loop
+                            buffer.drain(..1);
+                            continue;
+                        }
+
+                        // Try parsing as Extended, then Standard
+                        if let Some(xframe) = ExtendedCANFrame::from_bytes(frame_bytes) {
+                            println!(
+                                "Received Extended CAN Frame: ID=0x{:08X}, DLC={}, Data={:02X?}",
+                                xframe.id,
+                                xframe.dlc,
+                                &xframe.data[..xframe.dlc as usize]
+                            );
+                        } else if let Some(sframe) = CANFrame::from_bytes(frame_bytes) {
+                            println!(
+                                "Received Standard CAN Frame: ID={}, DLC={}, Data={:02X?}",
+                                sframe.id,
+                                sframe.dlc,
+                                &sframe.data[..sframe.dlc as usize]
+                            );
+                            if (100..110).contains(&sframe.id) {
+                                handle_expander(
+                                    sframe.id.into(),
+                                    &sframe.data[..sframe.dlc as usize],
+                                )
+                                .await;
+                            }
+                        } else {
+                            // Unrecognized; drop the start and try again
+                            buffer.drain(..1);
+                            continue;
+                        }
+
+                        // Remove processed bytes:
+                        // - If boundary was next AA, we preserved that AA (drain_upto excludes it).
+                        // - If boundary was 55, we consumed it as well.
+                        buffer.drain(..drain_upto);
+
+                        // Continue inner loop to look for more frames in the current buffer
                     }
                 }
                 Err(e) => {
@@ -582,7 +635,7 @@ async fn main() -> io::Result<()> {
 
                     // Note: The raw id (without the extended flag) is used here.
                     let ext_frame = ExtendedCANFrame {
-                        id: 0x8CEF00FE,
+                        id: 2365522974,
                         dlc: 8,
                         data,
                     };
@@ -598,7 +651,7 @@ async fn main() -> io::Result<()> {
 
                     // Note: The raw id (without the extended flag) is used here.
                     let ext_frame = ExtendedCANFrame {
-                        id: 0x8CEF00FE,
+                        id: 2365522974,
                         dlc: 8,
                         data,
                     };
@@ -606,32 +659,15 @@ async fn main() -> io::Result<()> {
                     send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "++" => {
-                    // Increase engine_speed and send an extended frame.
-                    if engine_speed < 150 {
-                        engine_speed += 5;
+                    // Increase throttle_value.
+                    if throttle_value < 85 {
+                        throttle_value += 20;
                     }
-                    // Convert engine_speed to raw value (raw = decoded / 0.125).
-                    let raw_value: u64 = ((engine_speed as f32) / 0.125).round() as u64;
-                    let mut data = [0u8; 8];
-                    let start_bit = 24;
-                    let bit_len = 16;
-                    let little_endian = true;
-                    if little_endian {
-                        let mut current = u64::from_le_bytes(data);
-                        let mask: u64 = ((1u64 << bit_len) - 1) << start_bit;
-                        current &= !mask;
-                        current |= (raw_value << start_bit) & mask;
-                        data = current.to_le_bytes();
-                    } else {
-                        let mut current = u64::from_be_bytes(data);
-                        let mask: u64 = ((1u64 << bit_len) - 1) << start_bit;
-                        current &= !mask;
-                        current |= (raw_value << start_bit) & mask;
-                        data = current.to_be_bytes();
-                    }
-                    // Note: The raw id (without the extended flag) is used here. 2364540158 = 0x8CF02C0E
+                    let data = encode_proprietary_b4(throttle_value as f64);
+
+                    // Note: The raw id (without the extended flag) is used here.
                     let ext_frame = ExtendedCANFrame {
-                        id: 0x8CF02C0E, // 0x8CF02C0E
+                        id: 2365522974,
                         dlc: 8,
                         data,
                     };
@@ -639,30 +675,75 @@ async fn main() -> io::Result<()> {
                     send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "--" => {
+                    // Decrease throttle_value.
+                    if throttle_value > 15 {
+                        throttle_value -= 20;
+                    }
+                    let data = encode_proprietary_b4(throttle_value as f64);
+
+                    // Note: The raw id (without the extended flag) is used here.
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2365522974,
+                        dlc: 8,
+                        data,
+                    };
+                    // IMPORTANT: Use custom framing so the analyzer can pick up the frame.
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "+max" => {
+                    // Increase throttle_value.
+                    throttle_value = 100;
+
+                    let data = encode_proprietary_b4(throttle_value as f64);
+
+                    // Note: The raw id (without the extended flag) is used here.
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2365522974,
+                        dlc: 8,
+                        data,
+                    };
+                    // IMPORTANT: Use custom framing so the analyzer can pick up the frame.
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "-max" => {
+                    // Decrease throttle_value.
+                    throttle_value = 0;
+
+                    let data = encode_proprietary_b4(throttle_value as f64);
+
+                    // Note: The raw id (without the extended flag) is used here.
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2365522974,
+                        dlc: 8,
+                        data,
+                    };
+                    // IMPORTANT: Use custom framing so the analyzer can pick up the frame.
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "s+" => {
+                    // Increase engine_speed and send an extended frame.
+                    if engine_speed < 5500 {
+                        engine_speed += 500;
+                    }
+                    let data = encode_engine_controller1(engine_speed.into(), 0.0, 0.0, 0.0, 0.0);
+
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2364539904,
+                        dlc: 8,
+                        data,
+                    };
+                    // IMPORTANT: Use custom framing so the analyzer can pick up the frame.
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "s-" => {
                     // Decrease engine_speed and send an extended frame.
                     if engine_speed > 0 {
-                        engine_speed -= 5;
+                        engine_speed -= 500;
                     }
-                    let raw_value: u64 = ((engine_speed as f32) / 0.125).round() as u64;
-                    let mut data = [0u8; 8];
-                    let start_bit = 24;
-                    let bit_len = 16;
-                    let little_endian = true;
-                    if little_endian {
-                        let mut current = u64::from_le_bytes(data);
-                        let mask: u64 = ((1u64 << bit_len) - 1) << start_bit;
-                        current &= !mask;
-                        current |= (raw_value << start_bit) & mask;
-                        data = current.to_le_bytes();
-                    } else {
-                        let mut current = u64::from_be_bytes(data);
-                        let mask: u64 = ((1u64 << bit_len) - 1) << start_bit;
-                        current &= !mask;
-                        current |= (raw_value << start_bit) & mask;
-                        data = current.to_be_bytes();
-                    }
+                    let data = encode_engine_controller1(engine_speed.into(), 0.0, 0.0, 0.0, 0.0);
+
                     let ext_frame = ExtendedCANFrame {
-                        id: 2364540158, // 0x8CF02C0E
+                        id: 2364539904,
                         dlc: 8,
                         data,
                     };
@@ -955,6 +1036,62 @@ async fn main() -> io::Result<()> {
                         data,
                     };
 
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "44" => {
+                    // Absolute overtemperature of the Battery Pack
+
+                    let data = encode_active_diagnostic_trouble_codes_pdio(
+                        ActiveDiagnosticTroubleCodesPDIO {
+                            protect_lamp: Lamp::Off,
+                            amber_warning: Lamp::Off,
+                            red_stop: Lamp::On,
+                            malfunction: Lamp::Off,
+                            protect_lamp_flash: FlashLamp::DoNotFlash,
+                            amber_warning_flash: FlashLamp::DoNotFlash,
+                            red_stop_flash: FlashLamp::FastFlash,
+                            malfunction_flash: FlashLamp::DoNotFlash,
+                            source_spn: 5917,
+                            failure_mode: FMI::DataValidButBelowNormalOpRangeLeastSevere,
+                            occurrence_count: 2,
+                            conv_method_old: false,
+                            reserved: 0xFF,
+                        },
+                    );
+
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566834718,
+                        dlc: 8,
+                        data,
+                    };
+                    send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "45" => {
+                    // Absolute overtemperature of the Battery Pack
+
+                    let data = encode_active_diagnostic_trouble_codes_pdio(
+                        ActiveDiagnosticTroubleCodesPDIO {
+                            protect_lamp: Lamp::Off,
+                            amber_warning: Lamp::Off,
+                            red_stop: Lamp::On,
+                            malfunction: Lamp::Off,
+                            protect_lamp_flash: FlashLamp::DoNotFlash,
+                            amber_warning_flash: FlashLamp::DoNotFlash,
+                            red_stop_flash: FlashLamp::FastFlash,
+                            malfunction_flash: FlashLamp::DoNotFlash,
+                            source_spn: 5917,
+                            failure_mode: FMI::DataValidButBelowNormalOpRangeLeastSevere,
+                            occurrence_count: 3,
+                            conv_method_old: false,
+                            reserved: 0xFF,
+                        },
+                    );
+
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2566834718,
+                        dlc: 8,
+                        data,
+                    };
                     send_extended_frame(&mut writer, ext_frame).await;
                 }
 
