@@ -10,6 +10,7 @@ export component TopBarCover inherits HorizontalLayout {
   in property <bool> is_hazard_indicator_on;
   in property <bool> is_abs_light_on;
   in property <bool> is_derate_light_on;
+  in property <bool> is_malfunction_amber_on;
 
 
   dimention: 65px;
@@ -32,11 +33,19 @@ export component TopBarCover inherits HorizontalLayout {
     background: top_bar_gray;
   }
   Rectangle {
-    visible: !is_malfunction_light_on;
+    visible: (!is_malfunction_light_on || is_malfunction_amber_on);
     width: parent.dimention;
     height: parent.dimention;
 
     background: top_bar_gray;
+
+    Image {
+      source: @image-url("../images/ORANGE_TRIANGLE_55x55.png");
+      width: 55px;
+      height: 55px;
+
+      visible: is_malfunction_amber_on;
+    }
   }
   Rectangle {
     visible: !is_hazard_indicator_on;
