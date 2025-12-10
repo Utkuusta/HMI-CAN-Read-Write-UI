@@ -1,0 +1,62 @@
+export component TopBarCover inherits HorizontalLayout {
+  property <length> dimention;
+  property <brush> top_bar_gray;
+
+  in property <length> pos_x;
+  in property <length> pos_y;
+  in property <bool> is_ignition_switch_on;
+  in property <bool> is_battery_light_on;
+  in property <bool> is_malfunction_light_on;
+  in property <bool> is_hazard_indicator_on;
+  in property <bool> is_abs_light_on;
+  in property <bool> is_derate_light_on;
+
+
+  dimention: 65px;
+  top_bar_gray: #1C1C1C;
+  x: pos_x;
+  y: pos_y;
+
+  Rectangle {
+    visible: !is_ignition_switch_on;
+    width: parent.dimention + 2px;
+    height: parent.dimention;
+
+    background: top_bar_gray;
+  }
+  Rectangle {
+    visible: !is_battery_light_on;
+    width: parent.dimention;
+    height: parent.dimention;
+
+    background: top_bar_gray;
+  }
+  Rectangle {
+    visible: !is_malfunction_light_on;
+    width: parent.dimention;
+    height: parent.dimention;
+
+    background: top_bar_gray;
+  }
+  Rectangle {
+    visible: !is_hazard_indicator_on;
+    width: parent.dimention;
+    height: parent.dimention;
+
+    background: top_bar_gray;
+  }
+  Rectangle {
+    visible: !is_abs_light_on;
+    width: parent.dimention;
+    height: parent.dimention;
+
+    background: top_bar_gray;
+  }
+  Rectangle {
+    visible: !is_derate_light_on;
+    width: parent.dimention;
+    height: parent.dimention;
+
+    background: top_bar_gray;
+  }
+}

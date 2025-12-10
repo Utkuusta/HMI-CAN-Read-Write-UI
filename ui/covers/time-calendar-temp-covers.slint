@@ -1,0 +1,21 @@
+export component TimeCalenderTempCover inherits HorizontalLayout {
+  property <brush> box_color;
+  property <length> box_width;
+  property <length> box_height;
+  in property <bool> is_time_on;
+  in property <bool> is_calendar_on;
+  in property <bool> is_temp_on;
+  
+  box_color: #101010;
+  box_width: 30px;
+  box_height: 32px;
+
+  spacing: 11px;
+
+  x: 45px;
+  y: 461px;
+  
+    Rectangle {background: box_color; width: box_width; height: box_height; visible: !is_time_on;}
+    Rectangle {background: box_color;width: box_width;height: box_height; visible: !is_calendar_on;}
+    Rectangle {background: box_color;width: box_width;height: box_height; visible: !is_temp_on;}
+}

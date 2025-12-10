@@ -1,0 +1,454 @@
+import { ArrowCover } from "covers/arrow-cover.slint";
+import { SideBarCover } from "covers/side-bar-cover.slint";
+import { TopBarCover } from "covers/top-bar-cover.slint";
+import { Batt1Segment100, Batt1Segment90, Batt1Segment80, Batt1Segment70, Batt1Segment60, Batt1Segment50, Batt1Segment40, Batt1Segment30, Batt1Segment20, Batt1Segment10, Batt1TitleCover, Batt2TitleCover, Batt2Segment100, Batt2Segment90, Batt2Segment80, Batt2Segment70, Batt2Segment60, Batt2Segment50, Batt2Segment40, Batt2Segment30, Batt2Segment20, Batt2Segment10 } from "covers/batt-covers.slint";
+import { SevenSegmentA, KmTitleCover, SevenSegmentB, SevenSegmentC, SevenSegmentD, SevenSegmentE, SevenSegmentF, SevenSegmentG } from "covers/seven-segment-covers.slint";
+import { DriveModeCovers } from "covers/drive-mode-covers.slint";
+import { RangeOdoTripCovers } from "covers/range-trip-odo-covers.slint";
+import { TimeCalenderTempCover } from "covers/time-calendar-temp-covers.slint";
+import { BotSegmentBlue1, BotSegmentGreen3, BotSegmentGreen2, BotSegmentGreen1, BotSegmentBlue2, BotSegmentBlue3, BotSegmentBlue4, BotSegmentBlue5, BotSegmentBlue6 } from "covers/regen-power-covers.slint";
+import { KmTitleSmallCover, SevenSegmentDSmall, SevenSegmentASmall, SevenSegmentBSmall, SevenSegmentCSmall, SevenSegmentESmall, SevenSegmentFSmall, SevenSegmentGSmall, SevenSegmentDotCover, MinusCover, ColonCover } from "covers/seven-segment-small-covers.slint";
+import { ReadyCover } from "covers/ready-cover.slint";
+
+export component AppWindow inherits Window {
+
+     //Expander1
+    in-out property <bool> derate;
+    in-out property <bool> abs;
+    in-out property <bool> flasher;
+    in-out property <bool> alarmAmber;
+    in-out property <bool> akuBattAlarm;
+    in-out property <bool> motorAlarmMilLamp;
+    in-out property <bool> battery1Indicator;
+    in-out property <bool> leftSignal;
+    in-out property <bool> battery2_60;
+    in-out property <bool> ble;
+    in-out property <bool> battery2_70;
+    in-out property <bool> battery2_80;
+    in-out property <bool> battery2_90;
+    in-out property <bool> battery2_100;
+    in-out property <bool> rightSignal;
+    in-out property <bool> battery2Indicator;
+
+    //Expander2
+    in-out property <bool> clockMinuteTensC;
+    in-out property <bool> clockMinuteTensD;
+    in-out property <bool> clockMinuteTensE;
+    in-out property <bool> clockMinuteTensG;
+    in-out property <bool> clockMinuteTensF;
+    in-out property <bool> clockMinuteTensA;
+    in-out property <bool> clockMinuteTensB;
+    in-out property <bool> clockMinuteOnesE;
+    in-out property <bool> dateIndicator;
+    in-out property <bool> clockIndicator;
+    in-out property <bool> clockMinuteOnesF;
+    in-out property <bool> clockMinuteOnesA;
+    in-out property <bool> clockMinuteOnesB;
+    in-out property <bool> clockMinuteOnesG;
+    in-out property <bool> clockMinuteOnesC;
+    in-out property <bool> clockMinuteOnesD;
+
+    //Expander3
+    in-out property <bool> speedHundredsA;
+    in-out property <bool> speedTensF;
+    in-out property <bool> speedTensA;
+    in-out property <bool> speedTensG;
+    in-out property <bool> speedTensB;
+    in-out property <bool> speedOnesF;
+    in-out property <bool> speedOnesA;
+    in-out property <bool> speedOnesB;
+    in-out property <bool> speedHundredsB;
+    in-out property <bool> speedTensD;
+    in-out property <bool> speedOnesD;
+    in-out property <bool> speedTensE;
+    in-out property <bool> speedTensC;
+    in-out property <bool> speedOnesE;
+    in-out property <bool> speedOnesC;
+    in-out property <bool> speedOnesG;
+
+    //Expander4
+    in-out property <bool> readyIndicator;
+    in-out property <bool> unused1;
+    in-out property <bool> unused2;
+    in-out property <bool> driveModeR;
+    in-out property <bool> driveModeD1;
+    in-out property <bool> driveModeD2;
+    in-out property <bool> driveModeD3;
+    in-out property <bool> driveModeP;
+    in-out property <bool> unused3;
+    in-out property <bool> unused4;
+    in-out property <bool> unused5;
+    in-out property <bool> unused6;
+    in-out property <bool> unused7;
+    in-out property <bool> alarmRed;
+    in-out property <bool> unused9;
+    in-out property <bool> unused10;
+
+    //Expander5
+    in-out property <bool> clockHourTensC;
+    in-out property <bool> clockHourTensD;
+    in-out property <bool> clockHourTensE;
+    in-out property <bool> clockHourTensG;
+    in-out property <bool> clockMinusIndicator;
+    in-out property <bool> clockHourTensF;
+    in-out property <bool> clockHourTensA;
+    in-out property <bool> clockHourTensB;
+    in-out property <bool> clockColonIndicator;
+    in-out property <bool> clockHourOnesA;
+    in-out property <bool> clockHourOnesB;
+    in-out property <bool> clockHourOnesG;
+    in-out property <bool> clockHourOnesC;
+    in-out property <bool> clockHourOnesD;
+    in-out property <bool> clockHourOnesE;
+    in-out property <bool> clockHourOnesF;
+
+    //Expander6
+    in-out property <bool> tripOnesDF;
+    in-out property <bool> tripOnesD;
+    in-out property <bool> tripOnesE;
+    in-out property <bool> tripOnesG;
+    in-out property <bool> tripOnesF;
+    in-out property <bool> tripOnesA;
+    in-out property <bool> tripOnesB;
+    in-out property <bool> tripOnesC;
+    in-out property <bool> tripKmIndicator;
+    in-out property <bool> tripFractionA;
+    in-out property <bool> tripFractionB;
+    in-out property <bool> tripFractionG;
+    in-out property <bool> tripFractionC;
+    in-out property <bool> tripFractionD;
+    in-out property <bool> tripFractionE;
+    in-out property <bool> tripFractionF;
+
+    //Expander7
+    in-out property <bool> clockTemperatureIndicator;
+    in-out property <bool> powerMinus20;
+    in-out property <bool> powerMinus30;
+    in-out property <bool> battery1_10;
+    in-out property <bool> battery1_20;
+    in-out property <bool> taillights;
+    in-out property <bool> headlights;
+    in-out property <bool> farlights;
+    in-out property <bool> battery1_30;
+    in-out property <bool> battery1_40;
+    in-out property <bool> battery1_50;
+    in-out property <bool> battery1_60;
+    in-out property <bool> battery1_70;
+    in-out property <bool> battery1_80;
+    in-out property <bool> battery1_90;
+    in-out property <bool> battery1_100;
+
+    //Expander8
+    in-out property <bool> serviceAlarm;
+    in-out property <bool> gsmIndicator;
+    in-out property <bool> battery2_50;
+    in-out property <bool> battery2_40;
+    in-out property <bool> kmh;
+    in-out property <bool> battery2_30;
+    in-out property <bool> battery2_20;
+    in-out property <bool> battery2_10;
+    in-out property <bool> range;
+    in-out property <bool> powerMinus10;
+    in-out property <bool> trip;
+    in-out property <bool> powerPlus10;
+    in-out property <bool> odo;
+    in-out property <bool> powerPlus20;
+    in-out property <bool> powerPlus30;
+    in-out property <bool> powerPlus40;
+
+    //Expander9
+    in-out property <bool> tripTenthousandsE;
+    in-out property <bool> tripTenthousandsG;
+    in-out property <bool> tripTenthousandsF;
+    in-out property <bool> tripTenthousandsA;
+    in-out property <bool> tripHundredthousandsBAlt;
+    in-out property <bool> tripHundredthousandsAUst;
+    in-out property <bool> powerPlus60;
+    in-out property <bool> powerPlus50;
+    in-out property <bool> tripThousandsD;
+    in-out property <bool> tripThousandsA;
+    in-out property <bool> tripThousandsE;
+    in-out property <bool> tripThousandsG;
+    in-out property <bool> tripThousandsF;
+    in-out property <bool> tripTenthousandsB;
+    in-out property <bool> tripTenthousandsC;
+    in-out property <bool> tripTenthousandsD;
+
+
+    //Expander10
+    in-out property <bool> tripHundredsB;
+    in-out property <bool> tripHundredsG;
+    in-out property <bool> tripHundredsC;
+    in-out property <bool> tripHundredsD;
+    in-out property <bool> tripHundredsE;
+    in-out property <bool> tripHundredsF;
+    in-out property <bool> tripThousandsB;
+    in-out property <bool> tripThousandsC;
+    in-out property <bool> tripHundredsA;
+    in-out property <bool> tripTensG;
+    in-out property <bool> tripTensB;
+    in-out property <bool> tripTensC;
+    in-out property <bool> tripTensD;
+    in-out property <bool> tripTensE;
+    in-out property <bool> tripTensF;
+    in-out property <bool> tripTensA;
+
+ 
+
+  width: 1024px;
+  height: 600px;
+
+    Image {
+      source: @image-url("images/Actio_Cluster_1024x600_v2.png");
+      width: 100%;
+      height: 100%;
+      image-fit: cover;
+    }
+
+    ArrowCover {pos_x: 32px; pos_y: 35px; is_left: true; is_arrow_light_on: leftSignal;}
+    ArrowCover {pos_x: parent.width - self.width - 31px;pos_y: 35px; is_arrow_light_on: rightSignal;}
+    SideBarCover {pos_x: 45px; pos_y: 182px; is_top_on: farlights; is_mid_on: headlights; is_bot_on: taillights;}
+    SideBarCover {pos_x: 929px;pos_y: 187px; is_top_on: ble; is_mid_on: gsmIndicator; is_bot_on: serviceAlarm;}
+    TopBarCover {
+      pos_x: 314px; pos_y: 10px; 
+      is_ignition_switch_on: motorAlarmMilLamp; 
+      is_battery_light_on: akuBattAlarm;
+      is_malfunction_light_on: alarmAmber;
+      is_hazard_indicator_on: flasher;
+      is_abs_light_on: abs;
+      is_derate_light_on: derate;
+      }
+
+    //Ready Text Cover
+    ReadyCover {is_ready_on: readyIndicator;}
+
+    //Batt1 covers
+    Batt1TitleCover {light_on: battery1Indicator;}
+    Batt1Segment100 {pos_x: 239px; pos_y: 80px; light_on: battery1_100;}
+    Batt1Segment90 {pos_x: 201px; pos_y:104px; light_on: battery1_90;}
+    Batt1Segment80 {pos_x: 177px; pos_y: 134px; light_on: battery1_80;}
+    Batt1Segment70 {pos_x: 175px; pos_y: 177px; light_on: battery1_70;}
+    Batt1Segment60 {pos_x: 175px; pos_y: 220.6px; light_on: battery1_60;}
+    Batt1Segment50 {pos_x: 175px; pos_y: 269px; light_on: battery1_50;}
+    Batt1Segment40 {pos_x: 175.2px; pos_y: 317px; light_on: battery1_40;}
+    Batt1Segment30 {pos_x: 176px; pos_y: 355.6px; light_on: battery1_30;}
+    Batt1Segment20 {pos_x:202.7px; pos_y: 391px; light_on: battery1_20;}
+    Batt1Segment10 {pos_x: 241px; pos_y: 413px; light_on: battery1_10;}
+
+    //Batt2 covers
+    Batt2TitleCover {light_on: battery2Indicator;}
+    Batt2Segment100 {pos_x: 715px; pos_y: 80px; light_on: battery2_100;}
+    Batt2Segment90 {pos_x: 753px; pos_y:104px; light_on: battery2_90;}
+    Batt2Segment80 {pos_x: 777px; pos_y: 134px; light_on: battery2_80;}
+    Batt2Segment70 {pos_x: 780px; pos_y: 176px; light_on: battery2_70;}
+    Batt2Segment60 {pos_x: 780px; pos_y: 220px; light_on: battery2_60;}
+    Batt2Segment50 {pos_x: 780px; pos_y: 268px; light_on: battery2_50;}
+    Batt2Segment40 {pos_x: 779px; pos_y: 317px; light_on: battery2_40;}
+    Batt2Segment30 {pos_x: 777px; pos_y: 355.6px; light_on: battery2_30;}
+    Batt2Segment20 {pos_x: 752px; pos_y: 391px; light_on: battery2_20;}
+    Batt2Segment10 {pos_x: 714px; pos_y: 413px; light_on: battery2_10;}
+
+    DriveModeCovers {pos_x: 328px; pos_y: 418px; is_d_1_light_on: driveModeD1; is_d_2_light_on: driveModeD2; is_d_3_light_on: driveModeD3; is_p_light_on: driveModeP; is_r_light_on: driveModeR;}
+    RangeOdoTripCovers {is_range_on: range; is_odo_on: odo; is_trip_on: trip;}
+    TimeCalenderTempCover {is_time_on: clockIndicator; is_calendar_on: dateIndicator; is_temp_on: clockTemperatureIndicator;}
+
+    // Regen Power Covers
+    BotSegmentGreen1 {pos_x: 309px; pos_y: 450px; visible: !powerMinus30;}
+    BotSegmentGreen2 {pos_x: 349.5px; pos_y: 459px; visible: !powerMinus20;}
+    BotSegmentGreen3 {pos_x: 391px; pos_y: 459px; visible: !powerMinus10;}
+    BotSegmentBlue1 {pos_x: 436px; pos_y: 459px; visible: !powerPlus10;}
+    BotSegmentBlue2 {pos_x: 479px; pos_y: 459px; visible: !powerMinus20;}
+    BotSegmentBlue3 {pos_x: 522px;pos_y: 459px; visible: !powerMinus30;}
+    BotSegmentBlue4 {pos_x: 563px; pos_y: 459px; visible: !powerPlus40;}
+    BotSegmentBlue5 {pos_x: 605px; pos_y: 459px; visible: !powerPlus50;}
+    BotSegmentBlue6 {pos_x: 644px; pos_y: 452px; visible: !powerPlus60;}
+
+    KmTitleCover {visible: !kmh;}
+    
+    //Seven segment hundreds digit
+    SevenSegmentB {pos_x: 303px; pos_y: 157px;custom_color: #161616; visible: 
+      !speedHundredsA;}
+    SevenSegmentC {pos_x: 283px; pos_y: 273px;custom_color: #161616; visible: 
+      !speedHundredsB;}
+    
+    //Seven segment tens digit
+    SevenSegmentA {pos_x: 420px; pos_y: 109px;custom_color: #1A1A1A; visible: 
+      !speedTensA;}
+    SevenSegmentB {pos_x: 461px; pos_y: 157px; custom_color: #202020; visible: 
+      !speedTensB;}
+    SevenSegmentC {pos_x: 441px; pos_y: 273px;custom_color: #262626; visible: 
+      !speedTensC;}
+    SevenSegmentD {pos_x: 383px; pos_y: 319px;custom_color: #202020; visible: 
+      !speedTensD;}
+    SevenSegmentE {pos_x: 344px; pos_y: 272px;custom_color: #1D1D1D; visible: 
+      !speedTensE;}
+    SevenSegmentF {pos_x: 359px; pos_y: 157px;custom_color: #1A1A1A; visible: 
+      !speedTensF;}
+    SevenSegmentG {pos_x: 401px; pos_y: 214px;custom_color: #212121; visible: 
+      !speedTensG;}
+
+    //Seven segment ones digit
+    SevenSegmentA {pos_x: 578px; pos_y: 109px;custom_color: #181818; visible: 
+      !speedOnesA;}
+    SevenSegmentB {pos_x: 620px; pos_y: 157px;custom_color: #181818; visible: 
+      !speedOnesB;}
+    SevenSegmentC {pos_x: 599px; pos_y: 273px;custom_color: #1B1B1B; visible: 
+      !speedOnesC;}
+    SevenSegmentD {pos_x: 541px; pos_y: 319px;custom_color: #222222; visible: 
+      !speedOnesD;}
+    SevenSegmentE {pos_x: 502px; pos_y: 272px;custom_color: #242424; visible: 
+      !speedOnesE;}
+    SevenSegmentF {pos_x: 517px; pos_y: 157px;custom_color: #242424; visible: 
+      !speedOnesF;}
+    SevenSegmentG {pos_x: 560px; pos_y: 214px;custom_color: #212121; visible: 
+      !speedOnesG;}
+
+    //Small Seven Segment Right
+    //.10s digit
+    SevenSegmentASmall {pos_x: 913.2px; pos_y: 487px; custom_color: #101010; visible: 
+      !tripFractionA;}
+    SevenSegmentBSmall {pos_x: 923.6px; pos_y: 493.4px; custom_color: #101010; visible: 
+      !tripFractionB;}
+    SevenSegmentCSmall {pos_x: 922.4px; pos_y: 517.2px; custom_color: #101010; visible: 
+      !tripFractionC;}
+    SevenSegmentDSmall {pos_x: 910.7px; pos_y: 529px; custom_color: #101010; visible: 
+      !tripFractionD;}
+    SevenSegmentESmall {pos_x: 902.3px; pos_y: 518.8px; custom_color: #101010; visible: 
+      !tripFractionE;}
+    SevenSegmentFSmall {pos_x: 900.8px; pos_y: 497.5px; custom_color: #101010; visible: 
+      !tripFractionF;}
+    SevenSegmentGSmall {pos_x: 910.2px; pos_y: 505px; custom_color: #101010; visible: 
+      !tripFractionG;}
+    
+    //1s digit
+    SevenSegmentASmall {pos_x: 871px; pos_y: 487px; custom_color: #101010; visible: 
+      !tripOnesA;}
+    SevenSegmentBSmall {pos_x: 881px; pos_y: 493.4px; custom_color: #101010; visible: 
+      !tripOnesB;}
+    SevenSegmentCSmall {pos_x: 880.1px; pos_y: 517px; custom_color: #101010; visible: 
+      !tripOnesC;}
+    SevenSegmentDSmall {pos_x: 868.4px; pos_y: 529px; custom_color: #101010; visible: 
+      !tripOnesD;}
+    SevenSegmentESmall {pos_x: 860px; pos_y: 518.8px; custom_color: #101010; visible: 
+      !tripOnesE;}
+    SevenSegmentFSmall {pos_x: 858.4px; pos_y: 497.5px; custom_color: #101010; visible: 
+      !tripOnesF;}
+    SevenSegmentGSmall {pos_x: 868.2px; pos_y: 505px; custom_color: #101010; visible: 
+      !tripOnesG;}
+
+    //10s digit
+    SevenSegmentASmall {pos_x: 840px; pos_y: 487px; custom_color: #101010; visible: 
+      !tripTensA;}
+    SevenSegmentBSmall {pos_x: 850px; pos_y: 493.9px; custom_color: #101010; visible: 
+      !tripTensB;}
+    SevenSegmentCSmall {pos_x: 849.5px; pos_y: 517px; custom_color: #101010; visible: 
+      !tripTensC;}
+    SevenSegmentDSmall {pos_x: 837.6px; pos_y: 529px; custom_color: #101010; visible: 
+      !tripTensD;}
+    SevenSegmentESmall {pos_x: 829px; pos_y: 518.8px; custom_color: #101010; visible: 
+      !tripTensE;}
+    SevenSegmentFSmall {pos_x: 827.5px; pos_y: 497.8px; custom_color: #101010; visible: 
+      !tripTensF;}
+    SevenSegmentGSmall {pos_x: 837.2px; pos_y: 505px; custom_color: #101010; visible: 
+      !tripTensG;}
+    
+    //100s digit
+    SevenSegmentASmall {pos_x: 809px; pos_y: 487px; custom_color: #101010; visible: 
+      !tripHundredsA;}
+    SevenSegmentBSmall {pos_x: 819.4px; pos_y: 493.9px; custom_color: #101010; visible: 
+      !tripHundredsB;}
+    SevenSegmentCSmall {pos_x: 818.5px; pos_y: 517px; custom_color: #101010; visible: 
+      !tripHundredsC;}
+    SevenSegmentDSmall {pos_x: 806.6px; pos_y: 529px; custom_color: #101010; visible: 
+      !tripHundredsD;}
+    SevenSegmentESmall {pos_x: 798px; pos_y: 518.8px; custom_color: #101010; visible: 
+      !tripHundredsE;}
+    SevenSegmentFSmall {pos_x: 796.5px; pos_y: 497.8px; custom_color: #101010; visible: 
+      !tripHundredsF;}
+    SevenSegmentGSmall {pos_x: 806.2px; pos_y: 505px; custom_color: #101010; visible: 
+      !tripHundredsG;}
+    
+    //1000s digit
+    SevenSegmentASmall {pos_x: 778px; pos_y: 487px; custom_color: #101010; visible: 
+      !tripThousandsA;}
+    SevenSegmentBSmall {pos_x: 788.4px; pos_y: 493.9px; custom_color: #101010; visible: 
+      !tripThousandsB;}
+    SevenSegmentCSmall {pos_x: 787.5px; pos_y: 517px; custom_color: #101010; visible: 
+      !tripThousandsC;}
+    SevenSegmentDSmall {pos_x: 775.8px; pos_y: 529px; custom_color: #101010; visible: 
+      !tripThousandsD;}
+    SevenSegmentESmall {pos_x: 767.2px; pos_y: 519px; custom_color: #101010; visible: 
+      !tripThousandsE;}
+    SevenSegmentFSmall {pos_x: 765.8px; pos_y: 497.9px; custom_color: #101010; visible: 
+      !tripThousandsF;}
+    SevenSegmentGSmall {pos_x: 775.2px; pos_y: 505px; custom_color: #101010; visible: 
+      !tripThousandsG;}
+
+    //10000s digit
+    SevenSegmentASmall {pos_x: 747.8px; pos_y: 487px; visible: 
+      !tripTenthousandsA;}
+    SevenSegmentBSmall {pos_x: 757.8px; pos_y: 493.4px; visible: 
+      !tripTenthousandsB;}
+    SevenSegmentCSmall {pos_x: 756.8px; pos_y: 517px; visible: 
+      !tripTenthousandsC;}
+    SevenSegmentDSmall {pos_x: 744.8px; pos_y: 529px; custom_color: #131313; visible: 
+      !tripTenthousandsD;}
+    SevenSegmentESmall {pos_x: 736px; pos_y: 518.8px; custom_color: #131313; visible: 
+      !tripTenthousandsE;}
+    SevenSegmentFSmall {pos_x: 734.9px; pos_y: 497.9px; custom_color: #131313; visible: 
+      !tripTenthousandsF;}
+    SevenSegmentGSmall {pos_x: 744.2px; pos_y: 505px; visible: 
+      !tripThousandsG;}
+    
+    //100000s digit
+    SevenSegmentBSmall {pos_x: 726.8px; pos_y: 494px; custom_color: #131313; visible: 
+      !tripHundredthousandsAUst;}
+    SevenSegmentCSmall {pos_x: 725.5px; pos_y: 517px; custom_color: #131313; visible: 
+      !tripHundredthousandsBAlt;}
+
+
+    //Always on
+    KmTitleSmallCover {visible: false;}
+    SevenSegmentDotCover{visible: false;}
+
+    //Small Seven Segment Left
+    //0_:__
+    SevenSegmentASmall {pos_x: 34.8px; pos_y: 487px;custom_color: #0F0F0F; visible: !clockHourTensA;}
+    SevenSegmentBSmall {pos_x: 45px; pos_y: 493.9px;custom_color: #0F0F0F; visible: !clockHourTensB;}
+    SevenSegmentCSmall {pos_x: 44.3px; pos_y: 517px;custom_color: #0F0F0F; visible: !clockHourTensC;}
+    SevenSegmentDSmall {pos_x: 32.5px; pos_y: 529px;custom_color: #0F0F0F; visible: !clockHourTensD;}
+    SevenSegmentESmall {pos_x: 24px; pos_y: 518.8px;custom_color: #0F0F0F; visible: !clockHourTensE;}
+    SevenSegmentFSmall {pos_x: 22.7px; pos_y: 497.9px;custom_color: #0F0F0F; visible: !clockHourTensF;}
+    SevenSegmentGSmall {pos_x: 32px; pos_y: 505px;custom_color: #0F0F0F; visible: !clockHourTensG;}
+
+    //_0:__
+    SevenSegmentASmall {pos_x: 65.8px; pos_y: 487px;custom_color: #0F0F0F; visible: !clockHourOnesA;}
+    SevenSegmentBSmall {pos_x: 76px; pos_y: 493.4px;custom_color: #0F0F0F; visible: !clockHourOnesB;}
+    SevenSegmentCSmall {pos_x: 75.3px; pos_y: 517px;custom_color: #0F0F0F; visible: !clockHourOnesC;}
+    SevenSegmentDSmall {pos_x: 63.5px; pos_y: 529px;custom_color: #0F0F0F; visible: !clockHourOnesD;}
+    SevenSegmentESmall {pos_x: 55px; pos_y: 518.8px;custom_color: #0F0F0F; visible: !clockHourOnesE;}
+    SevenSegmentFSmall {pos_x: 53.5px; pos_y: 497px;custom_color: #0F0F0F; visible: !clockHourOnesF;}
+    SevenSegmentGSmall {pos_x: 63px; pos_y: 505px;custom_color: #0F0F0F; visible: !clockHourOnesG;}
+
+    //__:0_
+    SevenSegmentASmall {pos_x: 109px; pos_y: 487px;custom_color: #0F0F0F; visible: !clockMinuteTensA;}
+    SevenSegmentBSmall {pos_x: 118.6px; pos_y: 493.4px;custom_color: #0F0F0F; visible: !clockMinuteTensB;}
+    SevenSegmentCSmall {pos_x: 117.9px; pos_y: 517px;custom_color: #0F0F0F; visible: !clockMinuteTensC;}
+    SevenSegmentDSmall {pos_x: 106.1px; pos_y: 529px;custom_color: #0F0F0F; visible: !clockMinuteTensD;}
+    SevenSegmentESmall {pos_x: 97.6px; pos_y: 518.8px;custom_color: #0F0F0F; visible: !clockMinuteTensE;}
+    SevenSegmentFSmall {pos_x: 96.1px; pos_y: 497px;custom_color: #0F0F0F; visible: !clockMinuteTensF;}
+    SevenSegmentGSmall {pos_x: 105.6px; pos_y: 505px;custom_color: #0F0F0F; visible: !clockMinuteTensG;}
+
+    //__:_0
+    SevenSegmentASmall {pos_x: 139px; pos_y: 487px;custom_color: #0F0F0F; visible: !clockMinuteOnesA;}
+    SevenSegmentBSmall {pos_x: 149.6px; pos_y: 493.4px;custom_color: #0F0F0F; visible: !clockMinuteOnesB;}
+    SevenSegmentCSmall {pos_x: 148.9px; pos_y: 517px;custom_color: #0F0F0F; visible: !clockMinuteOnesC;}
+    SevenSegmentDSmall {pos_x: 136.7px; pos_y: 529px;custom_color: #0F0F0F; visible: !clockMinuteOnesD;}
+    SevenSegmentESmall {pos_x: 128.6px; pos_y: 518.8px;custom_color: #0F0F0F; visible: !clockMinuteOnesE;}
+    SevenSegmentFSmall {pos_x: 126.8px; pos_y: 497px;custom_color: #0F0F0F; visible: !clockMinuteOnesF;}
+    SevenSegmentGSmall {pos_x: 136.6px; pos_y: 505px;custom_color: #0F0F0F; visible: !clockMinuteOnesG;}
+
+    MinusCover {visible: !clockMinusIndicator;}
+    ColonCover{visible: !clockColonIndicator;}
+}
+

@@ -1,0 +1,20 @@
+export component RangeOdoTripCovers inherits VerticalLayout {
+  property <brush> box_color;
+  property <length> box_width;
+  property <length> box_height;
+  in property <bool> is_range_on;
+  in property <bool> is_odo_on;
+  in property <bool> is_trip_on;
+  
+  box_color: #101010;
+  box_width: 65px;
+  box_height: 18px;
+  
+
+  x: 897px;
+  y: 440px;
+  
+    Rectangle {background: box_color; width: box_width; height: box_height; visible: !is_range_on;}
+    Rectangle {background: box_color;width: box_width; height: box_height; visible: !is_odo_on;}
+    Rectangle {background: box_color;width: box_width;height: box_height; visible: !is_trip_on;}
+}

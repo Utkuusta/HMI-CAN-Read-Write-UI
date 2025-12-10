@@ -1,0 +1,18 @@
+export component ArrowCover inherits Rectangle {
+      property <length> dimention;
+      in property <length> pos_x;
+      in property <length> pos_y;
+      in property <bool> is_left;
+      in property <bool> is_arrow_light_on;
+      dimention: 81px;
+      visible: !is_arrow_light_on;
+      
+      width: dimention;
+      height: dimention;
+      x: pos_x;
+      y: pos_y;
+
+      background: is_left ? #0F0F0F : #101010;
+    }
+
+

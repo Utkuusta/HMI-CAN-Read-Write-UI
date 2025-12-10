@@ -1,0 +1,38 @@
+export component SideBarCover inherits VerticalLayout {
+  
+  property <brush> side_bar_gray: #1B1B1B;
+
+  in property <length> pos_x;
+  in property <length> pos_y;
+  in property <bool> is_top_on;
+  in property <bool> is_mid_on;
+  in property <bool> is_bot_on;
+
+  spacing: 9px;
+
+  x: pos_x;
+  y: pos_y;
+  
+
+  Rectangle {
+    width: 57px;
+    height: 57px;
+    background: side_bar_gray;
+    visible: !is_top_on;
+
+  }
+  Rectangle {
+    width: 57px;
+    height: 57px;
+    background: side_bar_gray;
+    visible: !is_mid_on;
+
+  }
+  Rectangle {
+    width: 57px;
+    height: 57px;
+    background: side_bar_gray;
+    visible: !is_bot_on;
+
+  }
+}

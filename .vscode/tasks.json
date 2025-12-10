@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "cargo run (big stack)",
+      "type": "shell",
+      "command": "cargo",
+      "args": ["run"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "options": {
+        "env": {
+          // 16 MiB is usually plenty:
+          "RUST_MIN_STACK": "16777216"
+        }
+      },
+      "problemMatcher": ["$rustc"]
+    }
+  ]
+}

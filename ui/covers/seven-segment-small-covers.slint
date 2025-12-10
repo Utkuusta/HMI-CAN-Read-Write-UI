@@ -1,0 +1,181 @@
+export component KmTitleSmallCover inherits Rectangle {
+  x: 956px;
+  y: 533px;
+  
+  width: 40px;
+  height: 25px;
+
+    background: #101010;
+}
+
+export component MinusCover inherits Rectangle {
+    width: 20px;
+    height: 10px;
+
+    x: 24px;
+    y: 526px;
+    background: #0F0F0F;
+}
+export component ColonCover inherits Rectangle {
+    width: 8px;
+    height: 25px;
+
+    x: 109px;
+    y: 520px;
+    background: #0F0F0F;
+}
+
+export component SevenSegmentDotCover inherits Rectangle {
+    property <length> dimention;
+    in property <brush> custom_color;
+    dimention: 10px;
+
+    x: 914px;
+    y: 547px;
+
+    width: dimention;
+    height: dimention;
+
+    background: #101010;
+}
+
+export component SevenSegmentASmall inherits Rectangle {
+  in property <length> pos_x;  
+  in property <length> pos_y;
+  in property <brush> custom_color;
+  property <length> dimention;
+    dimention: 50.5px;
+
+    width: dimention;
+    height: dimention;
+    x: pos_x;
+    y: pos_y;
+
+
+    Image {
+      source: @image-url("../images/SEVEN_SEGMENT_A_50x50.png");
+      colorize:  custom_color;
+      width: 100%;
+      height: 100%;
+    }
+}
+export component SevenSegmentBSmall inherits Rectangle {
+  in property <length> pos_x;  
+  in property <length> pos_y;
+  in property <brush> custom_color;
+  property <length> dimention;
+    dimention: 50.5px;
+
+    width: dimention;
+    height: dimention;
+    x: pos_x;
+    y: pos_y;
+
+
+    Image {
+      source: @image-url("../images/SEVEN_SEGMENT_B_50x50.png");
+      colorize:  custom_color;
+      width: 100%;
+      height: 100%;
+    }
+}
+export component SevenSegmentCSmall inherits Rectangle {
+  in property <length> pos_x;  
+  in property <length> pos_y;
+  in property <brush> custom_color;
+  property <length> dimention;
+    dimention: 50.5px;
+
+    width: dimention;
+    height: dimention;
+    x: pos_x;
+    y: pos_y;
+
+
+    Image {
+      source: @image-url("../images/SEVEN_SEGMENT_C_50x50.png");
+      colorize:  custom_color;
+      width: 100%;
+      height: 100%;
+    }
+}
+export component SevenSegmentDSmall inherits Rectangle {
+  in property <length> pos_x;  
+  in property <length> pos_y;
+  in property <brush> custom_color;
+  property <length> dimention;
+    dimention: 50.5px;
+
+    width: dimention;
+    height: dimention;
+    x: pos_x;
+    y: pos_y;
+
+
+    Image {
+      source: @image-url("../images/SEVEN_SEGMENT_D_50x50.png");
+      colorize:  custom_color;
+      width: 100%;
+      height: 100%;
+    }
+}
+export component SevenSegmentESmall inherits Rectangle {
+  in property <length> pos_x;  
+  in property <length> pos_y;
+  in property <brush> custom_color;
+  property <length> dimention;
+    dimention: 50.5px;
+
+    width: dimention;
+    height: dimention;
+    x: pos_x;
+    y: pos_y;
+
+
+    Image {
+      source: @image-url("../images/SEVEN_SEGMENT_E_50x50.png");
+      colorize:  custom_color;
+      width: 100%;
+      height: 100%;
+    }
+}
+export component SevenSegmentFSmall inherits Rectangle {
+  in property <length> pos_x;  
+  in property <length> pos_y;
+  in property <brush> custom_color;
+  property <length> dimention;
+    dimention: 50.5px;
+
+    width: dimention;
+    height: dimention;
+    x: pos_x;
+    y: pos_y;
+
+
+    Image {
+      source: @image-url("../images/SEVEN_SEGMENT_F_50x50_fixed.png");
+      colorize:  custom_color;
+      width: 100%;
+      height: 100%;
+    }
+}
+export component SevenSegmentGSmall inherits Rectangle {
+  in property <length> pos_x;  
+  in property <length> pos_y;
+  in property <brush> custom_color;
+  property <length> dimention;
+    dimention: 54px;
+
+    width: dimention;
+    height: dimention;
+    x: pos_x;
+    y: pos_y;
+
+
+    Image {
+      source: @image-url("../images/SEVEN_SEGMENT_G_50x50.png");
+      colorize:  custom_color;
+      width: 100%;
+      height: 100%;
+    }
+}

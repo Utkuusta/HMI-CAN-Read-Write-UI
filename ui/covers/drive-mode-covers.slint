@@ -1,0 +1,67 @@
+component D1Cover inherits Rectangle {
+    in property <length> box_height;
+    in property <length> box_width;
+    
+
+    width: box_width;
+    height: box_height;
+    background: #171717;
+}
+component D2Cover inherits Rectangle {
+    in property <length> box_height;
+    in property <length> box_width;
+
+    width: box_width;
+    height: box_height;
+    background: #1C1C1C;
+}
+component D3Cover inherits Rectangle {
+    in property <length> box_height;
+    in property <length> box_width;
+
+    width: box_width;
+    height: box_height;
+    background: #202020;
+}
+component PCover inherits Rectangle {
+    in property <length> box_height;
+    in property <length> box_width;
+
+    width: box_width;
+    height: box_height;
+    background: #1E1E1E;
+}
+component RCover inherits Rectangle {
+    in property <length> box_height;
+    in property <length> box_width;
+
+    width: box_width;
+    height: box_height;
+    background: #1A1A1A;
+}
+
+export component DriveModeCovers inherits HorizontalLayout {
+  in property <length> pos_x;
+  in property <length> pos_y;
+  in property <bool> is_d_1_light_on;
+  in property <bool> is_d_2_light_on;
+  in property <bool> is_d_3_light_on;
+  in property <bool> is_p_light_on;
+  in property <bool> is_r_light_on;
+  property <length> box_height;
+  property <length> w;
+
+  box_height:40px;
+  w: 30px;
+
+  spacing: 28px;
+
+  x: pos_x;
+  y: pos_y;
+
+    D1Cover {box_height: box_height; box_width: 2*w; visible: !is_d_1_light_on;}
+    D2Cover {box_height: box_height;box_width: 2*w; visible: !is_d_2_light_on;}
+    D3Cover {box_height: box_height;box_width: 2*w; visible: !is_d_3_light_on;}
+    PCover {box_height: box_height;box_width: w; visible: !is_p_light_on;}
+    RCover {box_height: box_height;box_width: w; visible: !is_r_light_on;}
+}

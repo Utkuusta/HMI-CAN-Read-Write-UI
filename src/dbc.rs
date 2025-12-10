@@ -1,6 +1,6 @@
 use crate::{
     diagnostics::{DM1Packet, DM3Packet, FMI},
-    ActiveDiagnosticTroubleCodesPDIO, ProprietaryB5States, SwitchedPowerOutputStates,
+    ActiveDiagnosticTroubleCodesPDIO, ProprietaryB5States, ProprietarySwitchedPowerInputStates,
 };
 
 // Known CAN IDs for each message.
@@ -146,41 +146,41 @@ pub fn encode_proprietary_b5(proprietary_b5_states: ProprietaryB5States) -> [u8;
     data.to_le_bytes()
 }
 
-/// Encodes the Switched_Power_Output_Status message:
-///   SG_ Output_0_State             : 0|2@1+
-///   SG_ Output_1_State             : 2|2@1+
-///   SG_ Output_2_State             : 4|2@1+
-///   SG_ Output_3_State             : 6|2@1+
-///   SG_ Output_4_State             : 8|2@1+
-///   SG_ Output_5_State             : 10|2@1+
-///   SG_ Output_6_State             : 12|2@1+
-///   SG_ Output_7_State             : 14|2@1+
-///   SG_ Output_8_State             : 16|2@1+
-///   SG_ Output_9_State             : 18|2@1+
-///   SG_ Output_10_State            : 20|2@1+
-///   SG_ Output_HighCurrent_0_State: 48|2@1+
-///   SG_ Output_HighCurrent_1_State: 50|2@1+
+/// Encodes the Switched_Power_input_Status message:
+///   SG_ input_0_State             : 0|2@1+
+///   SG_ input_1_State             : 2|2@1+
+///   SG_ input_2_State             : 4|2@1+
+///   SG_ input_3_State             : 6|2@1+
+///   SG_ input_4_State             : 8|2@1+
+///   SG_ input_5_State             : 10|2@1+
+///   SG_ input_6_State             : 12|2@1+
+///   SG_ input_7_State             : 14|2@1+
+///   SG_ input_8_State             : 16|2@1+
+///   SG_ input_9_State             : 18|2@1+
+///   SG_ input_10_State            : 20|2@1+
+///   SG_ input_HighCurrent_0_State: 48|2@1+
+///   SG_ input_HighCurrent_1_State: 50|2@1+
 ///
 /// Each signal is 2 bits, unsigned, placed at its specified bit offset.
-pub fn encode_switched_power_output_status(
-    switched_power_output_states: SwitchedPowerOutputStates,
+pub fn encode_switched_power_input_status(
+    switched_power_input_states: ProprietarySwitchedPowerInputStates,
 ) -> [u8; 8] {
     let mut data: u64 = 0;
 
-    data |= (switched_power_output_states.output_0 as u64) << 0;
-    data |= (switched_power_output_states.output_1 as u64) << 2;
-    data |= (switched_power_output_states.output_2 as u64) << 4;
-    data |= (switched_power_output_states.output_3 as u64) << 6;
-    data |= (switched_power_output_states.output_4 as u64) << 8;
-    data |= (switched_power_output_states.output_5 as u64) << 10;
-    data |= (switched_power_output_states.output_6 as u64) << 12;
-    data |= (switched_power_output_states.output_7 as u64) << 14;
-    data |= (switched_power_output_states.output_8 as u64) << 16;
-    data |= (switched_power_output_states.output_9 as u64) << 18;
-    data |= (switched_power_output_states.output_10 as u64) << 20;
+    data |= (switched_power_input_states.input_0 as u64) << 0;
+    data |= (switched_power_input_states.input_1 as u64) << 2;
+    data |= (switched_power_input_states.input_2 as u64) << 4;
+    data |= (switched_power_input_states.input_3 as u64) << 6;
+    data |= (switched_power_input_states.input_4 as u64) << 8;
+    data |= (switched_power_input_states.input_5 as u64) << 10;
+    data |= (switched_power_input_states.input_6 as u64) << 12;
+    data |= (switched_power_input_states.input_7 as u64) << 14;
+    data |= (switched_power_input_states.input_8 as u64) << 16;
+    data |= (switched_power_input_states.input_9 as u64) << 18;
+    data |= (switched_power_input_states.input_10 as u64) << 20;
 
-    data |= (switched_power_output_states.high_current_0 as u64) << 48;
-    data |= (switched_power_output_states.high_current_1 as u64) << 50;
+    data |= (switched_power_input_states.high_current_0 as u64) << 48;
+    data |= (switched_power_input_states.high_current_1 as u64) << 50;
 
     data.to_le_bytes()
 }

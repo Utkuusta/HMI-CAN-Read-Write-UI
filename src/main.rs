@@ -202,126 +202,126 @@ impl ProprietaryB5States {
 }
 
 #[derive(Debug, Copy, Clone)]
-pub struct SwitchedPowerOutputStates {
-    pub output_0: u8,
-    pub output_1: u8,
-    pub output_2: u8,
-    pub output_3: u8,
-    pub output_4: u8,
-    pub output_5: u8,
-    pub output_6: u8,
-    pub output_7: u8,
-    pub output_8: u8,
-    pub output_9: u8,
-    pub output_10: u8,
+pub struct ProprietarySwitchedPowerInputStates {
+    pub input_0: u8,
+    pub input_1: u8,
+    pub input_2: u8,
+    pub input_3: u8,
+    pub input_4: u8,
+    pub input_5: u8,
+    pub input_6: u8,
+    pub input_7: u8,
+    pub input_8: u8,
+    pub input_9: u8,
+    pub input_10: u8,
     pub high_current_0: u8,
     pub high_current_1: u8,
 }
 
-impl SwitchedPowerOutputStates {
+impl ProprietarySwitchedPowerInputStates {
     pub fn new() -> Self {
         Self {
-            output_0: 0,
-            output_1: 0,
-            output_2: 0,
-            output_3: 0,
-            output_4: 0,
-            output_5: 0,
-            output_6: 0,
-            output_7: 0,
-            output_8: 0,
-            output_9: 0,
-            output_10: 0,
+            input_0: 0,
+            input_1: 0,
+            input_2: 0,
+            input_3: 0,
+            input_4: 0,
+            input_5: 0,
+            input_6: 0,
+            input_7: 0,
+            input_8: 0,
+            input_9: 0,
+            input_10: 0,
             high_current_0: 0,
             high_current_1: 0,
         }
     }
 
-    pub fn toggle_output_0(&mut self) {
-        if self.output_0 == 0 {
-            self.output_0 = 1;
+    pub fn toggle_input_0(&mut self) {
+        if self.input_0 == 0 {
+            self.input_0 = 1;
         } else {
-            self.output_0 = 0;
+            self.input_0 = 0;
         }
     }
 
-    pub fn toggle_output_1(&mut self) {
-        if self.output_1 == 0 {
-            self.output_1 = 1;
+    pub fn toggle_input_1(&mut self) {
+        if self.input_1 == 0 {
+            self.input_1 = 1;
         } else {
-            self.output_1 = 0;
+            self.input_1 = 0;
         }
     }
 
-    pub fn toggle_output_2(&mut self) {
-        if self.output_2 == 0 {
-            self.output_2 = 1;
+    pub fn toggle_input_2(&mut self) {
+        if self.input_2 == 0 {
+            self.input_2 = 1;
         } else {
-            self.output_2 = 0;
+            self.input_2 = 0;
         }
     }
 
-    pub fn toggle_output_3(&mut self) {
-        if self.output_3 == 0 {
-            self.output_3 = 1;
+    pub fn toggle_input_3(&mut self) {
+        if self.input_3 == 0 {
+            self.input_3 = 1;
         } else {
-            self.output_3 = 0;
+            self.input_3 = 0;
         }
     }
 
-    pub fn toggle_output_4(&mut self) {
-        if self.output_4 == 0 {
-            self.output_4 = 1;
+    pub fn toggle_input_4(&mut self) {
+        if self.input_4 == 0 {
+            self.input_4 = 1;
         } else {
-            self.output_4 = 0;
+            self.input_4 = 0;
         }
     }
 
-    pub fn toggle_output_5(&mut self) {
-        if self.output_5 == 0 {
-            self.output_5 = 1;
+    pub fn toggle_input_5(&mut self) {
+        if self.input_5 == 0 {
+            self.input_5 = 1;
         } else {
-            self.output_5 = 0;
+            self.input_5 = 0;
         }
     }
 
-    pub fn toggle_output_6(&mut self) {
-        if self.output_6 == 0 {
-            self.output_6 = 1;
+    pub fn toggle_input_6(&mut self) {
+        if self.input_6 == 0 {
+            self.input_6 = 1;
         } else {
-            self.output_6 = 0;
+            self.input_6 = 0;
         }
     }
 
-    pub fn toggle_output_7(&mut self) {
-        if self.output_7 == 0 {
-            self.output_7 = 1;
+    pub fn toggle_input_7(&mut self) {
+        if self.input_7 == 0 {
+            self.input_7 = 1;
         } else {
-            self.output_7 = 0;
+            self.input_7 = 0;
         }
     }
 
-    pub fn toggle_output_8(&mut self) {
-        if self.output_8 == 0 {
-            self.output_8 = 1;
+    pub fn toggle_input_8(&mut self) {
+        if self.input_8 == 0 {
+            self.input_8 = 1;
         } else {
-            self.output_8 = 0;
+            self.input_8 = 0;
         }
     }
 
-    pub fn toggle_output_9(&mut self) {
-        if self.output_9 == 0 {
-            self.output_9 = 1;
+    pub fn toggle_input_9(&mut self) {
+        if self.input_9 == 0 {
+            self.input_9 = 1;
         } else {
-            self.output_9 = 0;
+            self.input_9 = 0;
         }
     }
 
-    pub fn toggle_output_10(&mut self) {
-        if self.output_10 == 0 {
-            self.output_10 = 1;
+    pub fn toggle_input_10(&mut self) {
+        if self.input_10 == 0 {
+            self.input_10 = 1;
         } else {
-            self.output_10 = 0;
+            self.input_10 = 0;
         }
     }
 
@@ -339,6 +339,295 @@ impl SwitchedPowerOutputStates {
         } else {
             self.high_current_1 = 0;
         }
+    }
+}
+
+#[derive(Debug, Copy, Clone)]
+pub struct HighVoltageEnergyStorageSystemData1 {
+    /// kW
+    pub available_discharge_power: f32,
+    /// kW
+    pub available_charge_power: f32,
+    /// V
+    pub voltage_level: f32,
+    /// A (signed)
+    pub current: f32,
+}
+
+impl HighVoltageEnergyStorageSystemData1 {
+    const SCALE: f32 = 0.05;
+
+    pub fn new() -> Self {
+        Self {
+            available_discharge_power: 0.0,
+            available_charge_power: 0.0,
+            voltage_level: 0.0,
+            current: 0.0,
+        }
+    }
+
+    // ----- Setters in physical units -----
+
+    pub fn set_available_discharge_power(&mut self, value_kw: f32) {
+        // DBC: [0 | 3212.75] kW
+        self.available_discharge_power = value_kw.clamp(0.0, 3212.75);
+    }
+
+    pub fn set_available_charge_power(&mut self, value_kw: f32) {
+        // DBC: [0 | 3212.75] kW
+        self.available_charge_power = value_kw.clamp(0.0, 3212.75);
+    }
+
+    pub fn set_voltage_level(&mut self, value_v: f32) {
+        // DBC: [0 | 3212.75] V
+        self.voltage_level = value_v.clamp(0.0, 3212.75);
+    }
+
+    pub fn set_current(&mut self, value_a: f32) {
+        // DBC: [-1600 | 1612.75] A
+        self.current = value_a.clamp(-1600.0, 1612.75);
+    }
+
+    // ----- CAN encode/decode with scaling -----
+    // Use these where you actually touch the CAN frame.
+
+    pub fn from_can(data: &[u8; 8]) -> Self {
+        let discharge_raw = u16::from_le_bytes([data[0], data[1]]);
+        let charge_raw = u16::from_le_bytes([data[2], data[3]]);
+        let voltage_raw = u16::from_le_bytes([data[4], data[5]]);
+        let current_raw = i16::from_le_bytes([data[6], data[7]]);
+
+        Self {
+            available_discharge_power: (discharge_raw as f32) * Self::SCALE,
+            available_charge_power: (charge_raw as f32) * Self::SCALE,
+            voltage_level: (voltage_raw as f32) * Self::SCALE,
+            current: (current_raw as f32) * Self::SCALE,
+        }
+    }
+
+    pub fn to_can(&self) -> [u8; 8] {
+        let discharge = Self::encode_u16(self.available_discharge_power, 0.0, 3212.75);
+        let charge = Self::encode_u16(self.available_charge_power, 0.0, 3212.75);
+        let voltage = Self::encode_u16(self.voltage_level, 0.0, 3212.75);
+        let current = Self::encode_i16(self.current, -1600.0, 1612.75);
+
+        let mut data = [0u8; 8];
+        data[0..2].copy_from_slice(&discharge.to_le_bytes()); // 0|16
+        data[2..4].copy_from_slice(&charge.to_le_bytes()); // 16|16
+        data[4..6].copy_from_slice(&voltage.to_le_bytes()); // 32|16
+        data[6..8].copy_from_slice(&current.to_le_bytes()); // 48|16 (signed)
+        data
+    }
+
+    fn encode_u16(value: f32, min: f32, max: f32) -> u16 {
+        let clamped = value.clamp(min, max);
+        let raw = (clamped / Self::SCALE).round();
+        raw as u16
+    }
+
+    fn encode_i16(value: f32, min: f32, max: f32) -> i16 {
+        let clamped = value.clamp(min, max);
+        let raw = (clamped / Self::SCALE).round();
+        raw as i16
+    }
+}
+
+// ======================================================================
+// High_Voltage_Energy_Storage_System_Data_2
+// BO_ 2565902846
+// ======================================================================
+
+#[derive(Debug, Copy, Clone)]
+pub struct HighVoltageEnergyStorageSystemData2 {
+    /// HVESS_Fast_Update_State_of_Charge [%]
+    pub fast_update_state_of_charge: f32,
+    /// HVESS_Highest_Cell_Voltage [V]
+    pub highest_cell_voltage: f32,
+    /// HVESS_Lowest_Cell_Voltage [V]
+    pub lowest_cell_voltage: f32,
+    /// HVESS_Cell_Voltage_Differential_Status [0..15] (4-bit)
+    pub cell_voltage_differential_status: u8,
+}
+
+impl HighVoltageEnergyStorageSystemData2 {
+    const SOC_SCALE: f32 = 0.0015625; // 1/640
+    const VOLT_SCALE: f32 = 0.001;
+
+    pub fn new() -> Self {
+        Self {
+            fast_update_state_of_charge: 0.0,
+            highest_cell_voltage: 0.0,
+            lowest_cell_voltage: 0.0,
+            cell_voltage_differential_status: 0,
+        }
+    }
+
+    // -------- setters in physical units --------
+
+    pub fn set_fast_update_state_of_charge(&mut self, soc_percent: f32) {
+        // [0 | 100.398] %
+        self.fast_update_state_of_charge = soc_percent.clamp(0.0, 100.398);
+    }
+
+    pub fn set_highest_cell_voltage(&mut self, v: f32) {
+        // [0 | 64.225] V
+        self.highest_cell_voltage = v.clamp(0.0, 64.225);
+    }
+
+    pub fn set_lowest_cell_voltage(&mut self, v: f32) {
+        // [0 | 64.225] V
+        self.lowest_cell_voltage = v.clamp(0.0, 64.225);
+    }
+
+    pub fn set_cell_voltage_differential_status(&mut self, status: u8) {
+        // 4 bits @ 48|4 -> 0..15
+        self.cell_voltage_differential_status = status.min(0x0F);
+    }
+
+    // -------- encode/decode with DBC scaling --------
+
+    pub fn from_can(data: &[u8; 8]) -> Self {
+        let soc_raw = u16::from_le_bytes([data[0], data[1]]);
+        let high_v_raw = u16::from_le_bytes([data[2], data[3]]);
+        let low_v_raw = u16::from_le_bytes([data[4], data[5]]);
+        let status = data[6] & 0x0F; // 48|4
+
+        Self {
+            fast_update_state_of_charge: soc_raw as f32 * Self::SOC_SCALE,
+            highest_cell_voltage: high_v_raw as f32 * Self::VOLT_SCALE,
+            lowest_cell_voltage: low_v_raw as f32 * Self::VOLT_SCALE,
+            cell_voltage_differential_status: status,
+        }
+    }
+
+    pub fn to_can(&self) -> [u8; 8] {
+        let soc_raw = Self::encode_u16(
+            self.fast_update_state_of_charge,
+            0.0,
+            100.398,
+            Self::SOC_SCALE,
+        );
+        let high_v_raw = Self::encode_u16(self.highest_cell_voltage, 0.0, 64.225, Self::VOLT_SCALE);
+        let low_v_raw = Self::encode_u16(self.lowest_cell_voltage, 0.0, 64.225, Self::VOLT_SCALE);
+        let status = self.cell_voltage_differential_status & 0x0F;
+
+        let mut data = [0u8; 8];
+
+        // HVESS_Fast_Update_State_of_Charge : 0|16
+        data[0..2].copy_from_slice(&soc_raw.to_le_bytes());
+        // HVESS_Highest_Cell_Voltage : 16|16
+        data[2..4].copy_from_slice(&high_v_raw.to_le_bytes());
+        // HVESS_Lowest_Cell_Voltage : 32|16
+        data[4..6].copy_from_slice(&low_v_raw.to_le_bytes());
+        // HVESS_Cell_Voltage_Differential_Status : 48|4
+        data[6] = (data[6] & !0x0F) | status;
+
+        data
+    }
+
+    #[inline]
+    fn encode_u16(value: f32, min: f32, max: f32, scale: f32) -> u16 {
+        let clamped = value.clamp(min, max);
+        let raw = (clamped / scale).round();
+        raw as u16
+    }
+}
+
+// ======================================================================
+// High_Voltage_Energy_Storage_System_Data_3
+// BO_ 2565903102
+// ======================================================================
+
+#[derive(Debug, Copy, Clone)]
+pub struct HighVoltageEnergyStorageSystemData3 {
+    /// HVESS_Highest_Cell_Temperature [°C]
+    pub highest_cell_temperature: f32,
+    /// HVESS_Lowest_Cell_Temperature [°C]
+    pub lowest_cell_temperature: f32,
+    /// HVESS_Average_Cell_Temperature [°C]
+    pub average_cell_temperature: f32,
+    /// High_Voltage_Energy_Storage_System_Data_3Sig492 (2-bit status)
+    pub status: u8,
+}
+
+impl HighVoltageEnergyStorageSystemData3 {
+    const TEMP_SCALE: f32 = 0.03125;
+    const TEMP_OFFSET: f32 = -273.0;
+
+    pub fn new() -> Self {
+        Self {
+            highest_cell_temperature: 0.0,
+            lowest_cell_temperature: 0.0,
+            average_cell_temperature: 0.0,
+            status: 0,
+        }
+    }
+
+    // -------- setters in physical units --------
+
+    pub fn set_highest_cell_temperature(&mut self, temp_c: f32) {
+        self.highest_cell_temperature = temp_c.clamp(-273.0, 1734.97);
+    }
+
+    pub fn set_lowest_cell_temperature(&mut self, temp_c: f32) {
+        self.lowest_cell_temperature = temp_c.clamp(-273.0, 1734.97);
+    }
+
+    pub fn set_average_cell_temperature(&mut self, temp_c: f32) {
+        self.average_cell_temperature = temp_c.clamp(-273.0, 1734.97);
+    }
+
+    pub fn set_status(&mut self, status: u8) {
+        // 48|2 -> 0..3
+        self.status = status.min(0x03);
+    }
+
+    // -------- encode/decode with DBC scaling --------
+
+    pub fn from_can(data: &[u8; 8]) -> Self {
+        let high_raw = u16::from_le_bytes([data[0], data[1]]);
+        let low_raw = u16::from_le_bytes([data[2], data[3]]);
+        let avg_raw = u16::from_le_bytes([data[4], data[5]]);
+        let status = data[6] & 0x03; // 48|2
+
+        Self {
+            highest_cell_temperature: Self::decode_temp(high_raw),
+            lowest_cell_temperature: Self::decode_temp(low_raw),
+            average_cell_temperature: Self::decode_temp(avg_raw),
+            status,
+        }
+    }
+
+    pub fn to_can(&self) -> [u8; 8] {
+        let high_raw = Self::encode_temp(self.highest_cell_temperature);
+        let low_raw = Self::encode_temp(self.lowest_cell_temperature);
+        let avg_raw = Self::encode_temp(self.average_cell_temperature);
+        let status = self.status & 0x03;
+
+        let mut data = [0u8; 8];
+
+        // HVESS_Highest_Cell_Temperature : 0|16
+        data[0..2].copy_from_slice(&high_raw.to_le_bytes());
+        // HVESS_Lowest_Cell_Temperature : 16|16
+        data[2..4].copy_from_slice(&low_raw.to_le_bytes());
+        // HVESS_Average_Cell_Temperature : 32|16
+        data[4..6].copy_from_slice(&avg_raw.to_le_bytes());
+        // High_Voltage_Energy_Storage_System_Data_3Sig492 : 48|2
+        data[6] = (data[6] & !0x03) | status;
+
+        data
+    }
+
+    #[inline]
+    fn decode_temp(raw: u16) -> f32 {
+        (raw as f32) * Self::TEMP_SCALE + Self::TEMP_OFFSET
+    }
+
+    #[inline]
+    fn encode_temp(temp_c: f32) -> u16 {
+        let clamped = temp_c.clamp(-273.0, 1734.97);
+        let raw = ((clamped - Self::TEMP_OFFSET) / Self::TEMP_SCALE).round();
+        raw as u16
     }
 }
 
@@ -449,25 +738,27 @@ impl ActiveDiagnosticTroubleCodesPDIO {
 
 #[tokio::main]
 async fn main() -> io::Result<()> {
-    let port_name = r"\\.\COM11"; // Adjust for your system.
+    let port_name = r"\\.\COM3"; // Adjust for your system.
     let baud_rate = 115200;
 
     // Load your DBC file (if needed).
     let _lib = PgnLibrary::from_dbc_file("./src/Riki_j1939.dbc").unwrap();
 
-    // Open the serial port.
-    let serial_port = tokio_serial::new(port_name, baud_rate)
-        .timeout(Duration::from_millis(100))
-        .open_native_async()?;
+    /*
+        // Open the serial port.
+        let serial_port = tokio_serial::new(port_name, baud_rate)
+            .timeout(Duration::from_millis(100))
+            .open_native_async()?;
 
-    // Split into reader and writer.
-    let (mut reader, mut writer) = tokio::io::split(serial_port);
-
+        // Split into reader and writer.
+        let (mut reader, mut writer) = tokio::io::split(serial_port);
+    */
     // Task for reading incoming frames.
+
     let reader_task = tokio::spawn(async move {
         let mut buffer: Vec<u8> = Vec::new();
         let mut read_buf = [0u8; 128];
-
+        /*
         loop {
             match reader.read(&mut read_buf).await {
                 Ok(n) if n == 0 => continue,
@@ -565,18 +856,22 @@ async fn main() -> io::Result<()> {
                     break;
                 }
             }
+
         }
+        */
     });
 
     // Task for handling keyboard input and sending frames.
     let writer_task = tokio::spawn(async move {
         let mut toggle_states: HashMap<u8, bool> = HashMap::new();
         let mut proprietary_b5_states: ProprietaryB5States = ProprietaryB5States::new();
-        let mut switched_power_output_states = SwitchedPowerOutputStates::new();
+        let mut switched_power_input_states = ProprietarySwitchedPowerInputStates::new();
+        let mut hvess2 = HighVoltageEnergyStorageSystemData2::new();
         let mut throttle_value: u8 = 0;
         let mut engine_speed: u16 = 0;
         let stdin = BufReader::new(tokio::io::stdin());
         let mut lines = stdin.lines();
+        let mut soc = 50.0; // initial SoC %
 
         while let Ok(Some(line)) = lines.next_line().await {
             let command = line.trim();
@@ -595,7 +890,7 @@ async fn main() -> io::Result<()> {
                             d
                         },
                     };
-                    send_frame(&mut writer, frame).await;
+                    //send_frame\(&mut writer, frame\)\.await;
                 }
                 "2" => {
                     // Standard CAN frame with ID=1 and data [1].
@@ -608,7 +903,7 @@ async fn main() -> io::Result<()> {
                             d
                         },
                     };
-                    send_frame(&mut writer, frame).await;
+                    //send_frame\(&mut writer, frame\)\.await;
                 }
                 "3" => {
                     // Standard CAN frame with ID=10 and data [0x01, 0xFF].
@@ -624,7 +919,7 @@ async fn main() -> io::Result<()> {
                             d
                         },
                     };
-                    send_frame(&mut writer, frame).await;
+                    //send_frame\(&mut writer, frame\)\.await;
                 }
                 "+" => {
                     // Increase throttle_value.
@@ -640,7 +935,7 @@ async fn main() -> io::Result<()> {
                         data,
                     };
                     // IMPORTANT: Use custom framing so the analyzer can pick up the frame.
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "-" => {
                     // Decrease throttle_value.
@@ -656,7 +951,7 @@ async fn main() -> io::Result<()> {
                         data,
                     };
                     // IMPORTANT: Use custom framing so the analyzer can pick up the frame.
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "++" => {
                     // Increase throttle_value.
@@ -672,7 +967,7 @@ async fn main() -> io::Result<()> {
                         data,
                     };
                     // IMPORTANT: Use custom framing so the analyzer can pick up the frame.
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "--" => {
                     // Decrease throttle_value.
@@ -688,7 +983,7 @@ async fn main() -> io::Result<()> {
                         data,
                     };
                     // IMPORTANT: Use custom framing so the analyzer can pick up the frame.
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "+max" => {
                     // Increase throttle_value.
@@ -703,7 +998,7 @@ async fn main() -> io::Result<()> {
                         data,
                     };
                     // IMPORTANT: Use custom framing so the analyzer can pick up the frame.
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "-max" => {
                     // Decrease throttle_value.
@@ -718,7 +1013,7 @@ async fn main() -> io::Result<()> {
                         data,
                     };
                     // IMPORTANT: Use custom framing so the analyzer can pick up the frame.
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "s+" => {
                     // Increase engine_speed and send an extended frame.
@@ -733,7 +1028,7 @@ async fn main() -> io::Result<()> {
                         data,
                     };
                     // IMPORTANT: Use custom framing so the analyzer can pick up the frame.
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "s-" => {
                     // Decrease engine_speed and send an extended frame.
@@ -747,7 +1042,40 @@ async fn main() -> io::Result<()> {
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
+                }
+                "b+" => {
+                    // Increase SoC
+                    if soc < 100.0 {
+                        soc += 10.0;
+                    }
+                    hvess2.set_fast_update_state_of_charge(soc);
+
+                    let data = hvess2.to_can();
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2565902593,
+                        dlc: 8,
+                        data,
+                    };
+                    //send_extended_frame(&mut writer, ext_frame).await;
+                    println!("SoC increased to {:.2}%", soc);
+                }
+
+                "b-" => {
+                    // Decrease SoC
+                    if soc > 0.0 {
+                        soc -= 10.0;
+                    }
+                    hvess2.set_fast_update_state_of_charge(soc);
+
+                    let data = hvess2.to_can();
+                    let ext_frame = ExtendedCANFrame {
+                        id: 2565902593,
+                        dlc: 8,
+                        data,
+                    };
+                    //send_extended_frame(&mut writer, ext_frame).await;
+                    println!("SoC decreased to {:.2}%", soc);
                 }
                 "test" => {
                     // Increase engine_speed and send an extended frame.
@@ -760,7 +1088,7 @@ async fn main() -> io::Result<()> {
                         data,
                     };
                     // IMPORTANT: Use custom framing so the analyzer can pick up the frame.
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "23" => {
                     //Toggle brake_rear and send Proprietary_b5 message.
@@ -774,7 +1102,7 @@ async fn main() -> io::Result<()> {
                         data,
                     };
 
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "24" => {
                     //Toggle brake_switch_front and send Proprietary_b5 message.
@@ -788,7 +1116,7 @@ async fn main() -> io::Result<()> {
                         data,
                     };
 
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "25" => {
                     //Toggle kickstand_switch and send Proprietary_b5 message.
@@ -802,138 +1130,148 @@ async fn main() -> io::Result<()> {
                         data,
                     };
 
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "26" => {
-                    // Toggle output_0 and send Switched_Power_Output_Status message
-                    switched_power_output_states.toggle_output_0();
-                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    // High Beam/Passing Beam Signal (HBSI)
+                    switched_power_input_states.toggle_input_0();
+                    let data = encode_switched_power_input_status(switched_power_input_states);
                     let ext_frame = ExtendedCANFrame {
-                        id: 2566698014,
+                        id: 2566698526,
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "27" => {
-                    switched_power_output_states.toggle_output_1();
-                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    //"Side Stand Switch(SSSI)"
+                    switched_power_input_states.toggle_input_1();
+                    let data = encode_switched_power_input_status(switched_power_input_states);
                     let ext_frame = ExtendedCANFrame {
-                        id: 2566698014,
+                        id: 2566698526,
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "28" => {
-                    switched_power_output_states.toggle_output_2();
-                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    //"Left Brake Signal(LBSI)"
+                    switched_power_input_states.toggle_input_2();
+                    let data = encode_switched_power_input_status(switched_power_input_states);
                     let ext_frame = ExtendedCANFrame {
-                        id: 2566698014,
+                        id: 2566698526,
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "29" => {
-                    switched_power_output_states.toggle_output_3();
-                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    //"Turn Left Signal(TLSI)"
+                    switched_power_input_states.toggle_input_3();
+                    let data = encode_switched_power_input_status(switched_power_input_states);
                     let ext_frame = ExtendedCANFrame {
-                        id: 2566698014,
+                        id: 2566698526,
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "30" => {
-                    switched_power_output_states.toggle_output_4();
-                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    //"Turn Right Signal (TRSI)"
+                    switched_power_input_states.toggle_input_4();
+                    let data = encode_switched_power_input_status(switched_power_input_states);
                     let ext_frame = ExtendedCANFrame {
-                        id: 2566698014,
+                        id: 2566698526,
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "31" => {
-                    switched_power_output_states.toggle_output_5();
-                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    //"Park Button (PBSI)"
+                    switched_power_input_states.toggle_input_5();
+                    let data = encode_switched_power_input_status(switched_power_input_states);
                     let ext_frame = ExtendedCANFrame {
-                        id: 2566698014,
+                        id: 2566698526,
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "32" => {
-                    switched_power_output_states.toggle_output_6();
-                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    //"Mode Button(MBSI)"
+                    switched_power_input_states.toggle_input_6();
+                    let data = encode_switched_power_input_status(switched_power_input_states);
                     let ext_frame = ExtendedCANFrame {
-                        id: 2566698014,
+                        id: 2566698526,
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "33" => {
-                    switched_power_output_states.toggle_output_7();
-                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    //"Reverse Button(RVSI)"
+                    switched_power_input_states.toggle_input_7();
+                    let data = encode_switched_power_input_status(switched_power_input_states);
                     let ext_frame = ExtendedCANFrame {
-                        id: 2566698014,
+                        id: 2566698526,
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "34" => {
-                    switched_power_output_states.toggle_output_8();
-                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    //"Kıll Switch (KSWI)"
+                    switched_power_input_states.toggle_input_8();
+                    let data = encode_switched_power_input_status(switched_power_input_states);
                     let ext_frame = ExtendedCANFrame {
-                        id: 2566698014,
+                        id: 2566698526,
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "35" => {
-                    switched_power_output_states.toggle_output_9();
-                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    //"Right Brake Signal(RBSI)"
+                    switched_power_input_states.toggle_input_9();
+                    let data = encode_switched_power_input_status(switched_power_input_states);
                     let ext_frame = ExtendedCANFrame {
-                        id: 2566698014,
+                        id: 2566698526,
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "36" => {
-                    switched_power_output_states.toggle_output_10();
-                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    //"Hazard Switch(HSWI)"
+                    switched_power_input_states.toggle_input_10();
+                    let data = encode_switched_power_input_status(switched_power_input_states);
                     let ext_frame = ExtendedCANFrame {
-                        id: 2566698014,
+                        id: 2566698526,
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "37" => {
-                    switched_power_output_states.toggle_high_current_0();
-                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    switched_power_input_states.toggle_high_current_0();
+                    let data = encode_switched_power_input_status(switched_power_input_states);
                     let ext_frame = ExtendedCANFrame {
-                        id: 2566698014,
+                        id: 2566698526,
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "38" => {
-                    switched_power_output_states.toggle_high_current_1();
-                    let data = encode_switched_power_output_status(switched_power_output_states);
+                    switched_power_input_states.toggle_high_current_1();
+                    let data = encode_switched_power_input_status(switched_power_input_states);
                     let ext_frame = ExtendedCANFrame {
-                        id: 2566698014,
+                        id: 2566698526,
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "40" => {
                     // Absolute overtemperature of the Battery Pack
@@ -961,7 +1299,7 @@ async fn main() -> io::Result<()> {
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "41" => {
                     // Absolute overtemperature of the Battery Pack
@@ -989,7 +1327,7 @@ async fn main() -> io::Result<()> {
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "42" => {
                     // Absolute overtemperature of the Battery Pack
@@ -1017,7 +1355,7 @@ async fn main() -> io::Result<()> {
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "43" => {
                     // DM3 Clear Fault: Absolute overtemperature of the Battery Pack
@@ -1036,10 +1374,10 @@ async fn main() -> io::Result<()> {
                         data,
                     };
 
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "44" => {
-                    // Absolute overtemperature of the Battery Pack
+                    // Absolute overtemperature of the Battery PackUSB
 
                     let data = encode_active_diagnostic_trouble_codes_pdio(
                         ActiveDiagnosticTroubleCodesPDIO {
@@ -1064,7 +1402,7 @@ async fn main() -> io::Result<()> {
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //  //send_extended_frame(&mut writer, ext_frame).await;
                 }
                 "45" => {
                     // Absolute overtemperature of the Battery Pack
@@ -1092,7 +1430,7 @@ async fn main() -> io::Result<()> {
                         dlc: 8,
                         data,
                     };
-                    send_extended_frame(&mut writer, ext_frame).await;
+                    //   //send_extended_frame(&mut writer, ext_frame).await;
                 }
 
                 _ => {
@@ -1112,7 +1450,7 @@ async fn main() -> io::Result<()> {
                                 },
                             };
                             println!("Toggled id {} to {}", num, value);
-                            send_frame(&mut writer, frame).await;
+                        //    //send_frame\(&mut writer, frame\)\.await;
                         } else {
                             println!("Unknown command: {}", command);
                         }
@@ -1150,39 +1488,6 @@ async fn main() -> io::Result<()> {
             std::time::Duration::from_millis(200),
             move || {
                 let ui = ui_handle.unwrap();
-
-                // Update LED statuses from led_status.txt
-                let mut led_file = match File::open("./led_status.txt") {
-                    Ok(file) => file,
-                    Err(_) => {
-                        eprintln!("Failed to open led_status.txt");
-                        return;
-                    }
-                };
-
-                let mut led_bitstring = String::new();
-                if let Err(_) = led_file.read_to_string(&mut led_bitstring) {
-                    eprintln!("Failed to read led_status.txt");
-                    return;
-                }
-
-                let led_data: Vec<bool> = led_bitstring
-                    .lines()
-                    .filter_map(|line| line.parse::<bool>().ok())
-                    .collect();
-
-                //println!("Read LED data: {:?}", led_data);
-                if led_data.len() == 9 {
-                    ui.set_output_headlights(led_data[0]);
-                    ui.set_output_brakes(led_data[1]);
-                    ui.set_output_farlights(led_data[2]);
-                    ui.set_output_left_signal(led_data[3]);
-                    ui.set_output_right_signal(led_data[4]);
-                    ui.set_output_buzzer(led_data[5]);
-                    ui.set_output_flasher(led_data[6]);
-                    ui.set_output_platelights(led_data[7]);
-                    ui.set_output_taillights(led_data[8]);
-                }
 
                 if let Ok(expander) = read_expander_csv(1) {
                     ui.set_derate(expander[15]);
